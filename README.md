@@ -32,7 +32,7 @@ Toutes les coordonnées ci-dessous sont des **placeholders fictifs** à remplace
 ## Fonctionnalités
 
 - Header sticky avec menu mobile (hamburger)
-- Hero avec double CTA (devis + appel direct)
+- Hero avec formulaire de devis rapide visible dès la première page (nom, téléphone, e-mail, type de projet) + CTA d'appel direct — pas besoin de scroller pour laisser ses coordonnées
 - Bandeau de chiffres clés (chantiers, expérience, satisfaction, note)
 - 6 services avec icônes
 - Section réassurance ("Pourquoi nous choisir")
@@ -41,7 +41,7 @@ Toutes les coordonnées ci-dessous sont des **placeholders fictifs** à remplace
 - Section partenaires / certifications
 - Zone d'intervention avec carte Google Maps intégrée et liste de villes
 - FAQ en accordéon (avec données structurées FAQPage)
-- Formulaire de contact avec validation
+- Section contact avec coordonnées, horaires et un rappel/CTA vers le formulaire du hero (pas de formulaire dupliqué)
 - Bouton d'appel flottant sur mobile
 - Footer complet avec liens légaux
 

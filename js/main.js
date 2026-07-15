@@ -68,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* Contact form handling (client-side demo — hook up a real backend, see README) */
-  var form = document.getElementById('contact-form');
-  var status = document.getElementById('form-status');
+  var form = document.getElementById('hero-form');
+  var status = document.getElementById('hero-form-status');
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
