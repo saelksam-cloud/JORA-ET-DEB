@@ -1,0 +1,10 @@
+{
+  "name": "Moderne Isolation",
+  "short_name": "Moderne Isolation",
+  "description": "Isolation thermique et rénovation BTP dans les Bouches-du-Rhône.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#12213B",
+  "lang": "fr"
+}
