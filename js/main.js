@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* Scroll reveal for cards/sections */
-  var revealTargets = document.querySelectorAll('.card, .testimonial-card, .gallery-card, .stat');
+  var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .chip');
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

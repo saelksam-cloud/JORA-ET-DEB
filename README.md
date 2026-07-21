@@ -1,6 +1,8 @@
 # Moderne Isolation — Site vitrine
 
-Landing page pour **Moderne Isolation**, entreprise d'isolation thermique et de rénovation BTP dans les Bouches-du-Rhône. Site statique (HTML/CSS/JS, aucune dépendance externe), pensé pour la conversion (devis) et le référencement local (SEO).
+Landing page pour **Moderne Isolation**, entreprise de rénovation intérieure et extérieure (isolation, peinture, plâtrerie, maçonnerie) à Aix-en-Provence et dans les Bouches-du-Rhône depuis 2016. Site statique (HTML/CSS/JS, aucune dépendance externe), pensé pour la conversion (devis) et le référencement local (SEO).
+
+Charte graphique (bordeaux/noir) et contenu (services, avis clients, accroche, téléphone) inspirés du site réel de l'entreprise, avec une mise en page retravaillée : formulaire de devis visible dès le hero, sections SEO complètes (FAQ, zone d'intervention, données structurées).
 
 ## Structure du site
 
@@ -15,29 +17,30 @@ sitemap.xml                   Plan du site pour l'indexation
 site.webmanifest              Manifeste PWA (icône, couleurs)
 ```
 
-## ⚠️ À personnaliser avant mise en ligne (obligatoire)
+## ⚠️ À vérifier / compléter avant mise en ligne
 
-Toutes les coordonnées ci-dessous sont des **placeholders fictifs** à remplacer :
+**Déjà réel** (repris de votre site actuel) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention.
 
-- **Téléphone** : `04 42 00 00 00` (recherchez/remplacez `+33442000000` et `04 42 00 00 00` dans tous les fichiers)
-- **E-mail** : `contact@moderne-isolation.fr`
-- **Adresse** : `12 Avenue des Artisans, 13000 Marseille`
-- **Domaine** : `https://www.moderne-isolation.fr/` (balises canonical, Open Graph, JSON-LD, sitemap.xml, robots.txt)
-- **SIRET / infos légales** dans `mentions-legales.html`
-- **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires
-- **Témoignages clients** : avis fictifs à remplacer par de vrais avis (idéalement copiés depuis votre fiche Google Business Profile, avec autorisation des clients)
-- **Photos de chantiers** : la section Réalisations utilise des blocs colorés en attendant vos vraies photos avant/après
+**Encore des placeholders à remplacer** :
+- **E-mail** : `contact@moderne-isolation.fr` (à confirmer)
+- **Adresse** : `12 Avenue des Artisans, 13100 Aix-en-Provence` — adresse fictive, à remplacer par votre vraie adresse (ou à retirer si vous ne recevez pas de public)
+- **Domaine** : `https://www.moderne-isolation.fr/` dans les balises canonical/OG/JSON-LD/sitemap.xml/robots.txt — à remplacer par votre vrai domaine (ex. moderne-isolation-13.fr) avant mise en ligne
+- **SIRET / forme juridique / assureur décennale** dans `mentions-legales.html`
+- **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
+- **Photos** : toutes les photos (hero, réalisations, section détail) sont des emplacements identifiés en attendant vos fichiers — envoyez-les-moi pour que je les intègre
 - **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, Instagram, LinkedIn)
 
 ## Fonctionnalités
 
-- Header sticky avec menu mobile (hamburger)
-- Hero avec formulaire de devis rapide visible dès la première page (nom, téléphone, e-mail, type de projet) + CTA d'appel direct — pas besoin de scroller pour laisser ses coordonnées
-- Bandeau de chiffres clés (chantiers, expérience, satisfaction, note)
-- 6 services avec icônes
+- Header sticky avec menu mobile (hamburger), logo "M"
+- Hero avec formulaire de devis rapide visible dès la première page (nom, téléphone, e-mail, type de projet), badge d'avis Google et tampon "Garantie décennale"
+- Bandeau CTA "Appelez-nous dès maintenant"
+- Section "À propos" + bandeau chiffres clés (2016, +100 clients/an, 5/5, garantie décennale)
+- Bandeau de services (13 prestations) façon chips, fidèle au site actuel
+- Section détaillée texte + photo sur le savoir-faire
 - Section réassurance ("Pourquoi nous choisir")
-- Galerie de réalisations filtrable par catégorie
-- Témoignages clients + note Google agrégée
+- Galerie de réalisations filtrable par catégorie (avant/après)
+- Témoignages clients réels (avatars colorés, note Google agrégée 5/5 sur 24 avis)
 - Section partenaires / certifications
 - Zone d'intervention avec carte Google Maps intégrée et liste de villes
 - FAQ en accordéon (avec données structurées FAQPage)
