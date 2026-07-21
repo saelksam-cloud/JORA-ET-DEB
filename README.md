@@ -29,7 +29,8 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
 - **Photos** : toutes les photos (hero, réalisations, section détail, blog) sont des emplacements identifiés en attendant vos fichiers — envoyez-les-moi pour que je les intègre
 - **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, LinkedIn) — Instagram est déjà lié vers @moderneisolation
-- **Vidéos Instagram** (section "Nos chantiers en vidéo") : 4 emplacements en attente des liens de vos posts/reels. Une fois les liens fournis, remplacer chaque `.instagram-embed-placeholder` par le code d'intégration officiel (bouton "..." sur le post → Intégrer → Copier le code), puis ajouter `<script async src="//www.instagram.com/embed.js"></script>` avant `</body>` dans `index.html`
+
+**Déjà réel également** : la section "Nos chantiers en vidéo" intègre 5 de vos vrais posts/reels Instagram via le widget officiel `embed.js`. Pour changer une vidéo plus tard : remplacer la valeur `data-instgrm-permalink` du `<blockquote class="instagram-media">` correspondant, dans `index.html`, par l'URL du nouveau post.
 
 ## Fonctionnalités
 
