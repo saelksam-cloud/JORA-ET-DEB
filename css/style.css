@@ -520,6 +520,26 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
 .related-section { background: var(--color-bg); padding: 64px 0; }
 
+/* ---------- Instagram ---------- */
+.instagram-header { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+.instagram-handle { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: var(--color-dark); }
+.instagram-handle svg { color: var(--color-accent); flex-shrink: 0; }
+.instagram-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.instagram-embed {
+  position: relative; aspect-ratio: 9/16; border-radius: var(--radius-md); overflow: hidden;
+  background: var(--color-dark); box-shadow: var(--shadow-sm);
+}
+.instagram-embed iframe, .instagram-embed blockquote { width: 100% !important; height: 100% !important; margin: 0 !important; border: none !important; }
+.instagram-embed-placeholder {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: #fff; background: linear-gradient(135deg, #2a2a2e, #1A1A1D); text-align: center; padding: 16px;
+}
+.instagram-embed-placeholder .play-icon {
+  width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+}
+.instagram-embed-placeholder span { font-size: 0.8rem; color: #C9C9CC; }
+
 /* ---------- Mobile call FAB ---------- */
 .mobile-call-fab {
   display: none; position: fixed; bottom: 20px; right: 20px; z-index: 400;
@@ -545,6 +565,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .blog-grid { grid-template-columns: 1fr 1fr; }
   .article-layout { grid-template-columns: 1fr; }
   .article-sidebar { display: none; }
+  .instagram-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 860px) {
@@ -582,4 +603,5 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .blog-grid { grid-template-columns: 1fr; }
   .article-cta { flex-direction: column; align-items: flex-start; }
   .article-footer-nav { flex-direction: column; }
+  .instagram-grid { grid-template-columns: 1fr 1fr; }
 }

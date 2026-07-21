@@ -27,8 +27,9 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - **Domaine** : `https://www.moderne-isolation.fr/` dans les balises canonical/OG/JSON-LD/sitemap.xml/robots.txt — à remplacer par votre vrai domaine (ex. moderne-isolation-13.fr) avant mise en ligne
 - **SIRET / forme juridique / assureur décennale** dans `mentions-legales.html`
 - **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
-- **Photos** : toutes les photos (hero, réalisations, section détail) sont des emplacements identifiés en attendant vos fichiers — envoyez-les-moi pour que je les intègre
-- **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, Instagram, LinkedIn)
+- **Photos** : toutes les photos (hero, réalisations, section détail, blog) sont des emplacements identifiés en attendant vos fichiers — envoyez-les-moi pour que je les intègre
+- **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, LinkedIn) — Instagram est déjà lié vers @moderneisolation
+- **Vidéos Instagram** (section "Nos chantiers en vidéo") : 4 emplacements en attente des liens de vos posts/reels. Une fois les liens fournis, remplacer chaque `.instagram-embed-placeholder` par le code d'intégration officiel (bouton "..." sur le post → Intégrer → Copier le code), puis ajouter `<script async src="//www.instagram.com/embed.js"></script>` avant `</body>` dans `index.html`
 
 ## Fonctionnalités
 
