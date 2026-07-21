@@ -37,9 +37,11 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - Bandeau CTA "Appelez-nous dès maintenant"
 - Section "À propos" + bandeau chiffres clés (2016, +100 clients/an, 5/5, garantie décennale)
 - Bandeau de services (13 prestations) façon chips, fidèle au site actuel
-- Section détaillée texte + photo sur le savoir-faire
-- Section réassurance ("Pourquoi nous choisir")
-- Galerie de réalisations filtrable par catégorie (avant/après)
+- Section détaillée texte + photo sur le savoir-faire (x2)
+- Slider avant/après interactif (glisser pour comparer)
+- Section "Bonnes raisons de choisir notre entreprise" (4 cartes)
+- Galerie de réalisations filtrable par catégorie
+- Bandeau CTA avec photo ("Contactez-nous pour discuter de votre projet")
 - Témoignages clients réels (avatars colorés, note Google agrégée 5/5 sur 24 avis)
 - Section partenaires / certifications
 - Zone d'intervention avec carte Google Maps intégrée et liste de villes

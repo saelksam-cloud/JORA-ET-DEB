@@ -39,6 +39,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* Avant / Après comparison sliders */
+  document.querySelectorAll('[data-compare]').forEach(function (slider) {
+    var after = slider.querySelector('.compare-after');
+    var line = slider.querySelector('.compare-line');
+    var handle = slider.querySelector('.compare-handle');
+    var range = slider.querySelector('.compare-range');
+
+    function update(value) {
+      after.style.clipPath = 'inset(0 0 0 ' + value + '%)';
+      line.style.left = value + '%';
+      handle.style.left = value + '%';
+    }
+    range.addEventListener('input', function () { update(range.value); });
+    update(range.value);
+  });
+
   /* Gallery filter */
   var filterTabs = document.querySelectorAll('.filter-tab');
   var galleryCards = document.querySelectorAll('.gallery-card');
@@ -87,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* Scroll reveal for cards/sections */
-  var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .chip');
+  var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .chip, .reason-card, .compare-slider');
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
