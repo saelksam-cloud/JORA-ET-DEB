@@ -324,6 +324,20 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .footer-bottom ul { flex-direction: row; gap: 20px; }
 .footer-bottom ul a { font-size: 0.82rem; }
 
+/* ---------- Cookie banner ---------- */
+.cookie-banner {
+  position: fixed; left: 20px; right: 20px; bottom: 20px; z-index: 600;
+  max-width: 640px; margin: 0 auto;
+  background: var(--color-dark); color: #fff; border-radius: var(--radius-md);
+  padding: 22px 26px; box-shadow: var(--shadow-lg);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 18px; justify-content: space-between;
+}
+.cookie-banner p { font-size: 0.86rem; color: #C7CEDA; flex: 1 1 320px; }
+.cookie-banner a { color: var(--color-accent-light); text-decoration: underline; }
+.cookie-banner-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.cookie-banner .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,0.35); }
+.cookie-banner .btn-outline:hover { border-color: #fff; color: #fff; }
+
 /* ---------- Mobile call FAB ---------- */
 .mobile-call-fab {
   display: none; position: fixed; bottom: 20px; right: 20px; z-index: 400;

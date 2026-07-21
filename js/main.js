@@ -79,6 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       status.textContent = 'Merci ! Votre demande a bien été envoyée, nous revenons vers vous sous 48h.';
       status.className = 'form-status success';
+      if (typeof window.trackLeadSubmitted === 'function') {
+        window.trackLeadSubmitted(form.project.value);
+      }
       form.reset();
     });
   }

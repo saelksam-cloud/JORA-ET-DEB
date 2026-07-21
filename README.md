@@ -58,6 +58,15 @@ Toutes les coordonnées ci-dessous sont des **placeholders fictifs** à remplace
 - **Mobile-first / responsive** : testé de 390px à 1440px
 - **Accessibilité** : lien d'évitement, attributs `aria-*`, contrastes suffisants, `alt`/labels sur les champs
 
+## Analytics (Google Analytics 4)
+
+Le site inclut une bannière de consentement cookies (RGPD) et un chargement conditionnel de GA4 dans `js/analytics.js` :
+
+1. Créez une propriété GA4 sur [analytics.google.com](https://analytics.google.com)
+2. Remplacez `G-XXXXXXXXXX` dans `js/analytics.js` (variable `GA_MEASUREMENT_ID`) par votre identifiant de mesure
+3. GA4 ne se charge qu'après acceptation du bandeau — tant que l'ID n'est pas renseigné, rien ne se charge
+4. Chaque envoi réussi du formulaire de devis déclenche un événement `generate_lead` (avec le type de projet choisi), utile pour suivre vos conversions dans GA4
+
 ## Prochaines étapes recommandées pour le référencement
 
 1. **Créer/optimiser votre fiche Google Business Profile** (avis Google = premier levier de confiance en local SEO) et lier la vraie note/nombre d'avis dans le JSON-LD.
