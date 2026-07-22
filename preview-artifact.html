@@ -210,12 +210,12 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 /* ---------- Founder banner (mot du gérant) ---------- */
 .founder-banner { position: relative; min-height: 460px; display: flex; align-items: center; overflow: hidden; }
 .founder-banner-bg { position: absolute; inset: 0; }
-.founder-banner-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+.founder-banner-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 25% 30%; display: block; }
 .founder-banner-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(26,26,29,0.94) 0%, rgba(26,26,29,0.82) 38%, rgba(26,26,29,0.35) 72%, rgba(26,26,29,0.08) 100%);
+  background: linear-gradient(260deg, rgba(26,26,29,0.94) 0%, rgba(26,26,29,0.82) 38%, rgba(26,26,29,0.35) 72%, rgba(26,26,29,0.08) 100%);
 }
-.founder-banner-content { position: relative; z-index: 1; padding: 76px 0; max-width: 620px; }
+.founder-banner-content { position: relative; z-index: 1; padding: 76px 0; max-width: 560px; margin: 0 0 0 auto; }
 .founder-quote {
   position: relative; margin: 18px 0 0;
   font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
@@ -607,7 +607,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .founder-banner { min-height: 0; }
   .founder-banner-bg img { object-position: center 20%; }
   .founder-banner-overlay { background: linear-gradient(180deg, rgba(26,26,29,0.55) 0%, rgba(26,26,29,0.92) 55%, rgba(26,26,29,0.97) 100%); }
-  .founder-banner-content { max-width: 100%; padding: 220px 0 44px; }
+  .founder-banner-content { max-width: 100%; margin: 0; padding: 220px 0 44px; }
   .founder-quote::before { top: -34px; font-size: 4rem; }
   .founder-quote p { font-size: 1.05rem; }
 }
