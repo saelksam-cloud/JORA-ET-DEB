@@ -19,7 +19,7 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 
 ## ⚠️ À vérifier / compléter avant mise en ligne
 
-**Déjà réel** (repris de votre site actuel / fourni par vous) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention, 6 vraies photos de chantiers (`images/realisations/`) utilisées dans la galerie "Réalisations" et les sections détail/CTA, et 5 vrais posts/reels Instagram intégrés via le widget officiel dans "Nos chantiers en vidéo" (pour en changer un : remplacer la valeur `data-instgrm-permalink` du `<blockquote class="instagram-media">` correspondant dans `index.html`).
+**Déjà réel** (repris de votre site actuel / fourni par vous) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention, 6 vraies photos de chantiers (`images/realisations/`) utilisées dans la galerie "Réalisations" et les sections détail/CTA, et 8 vrais posts/reels Instagram intégrés via le widget officiel dans "Nos chantiers en vidéo" (pour en changer un ou en ajouter : dupliquer un bloc `<div class="instagram-embed"><blockquote class="instagram-media" data-instgrm-permalink="...">` dans `index.html`).
 
 **Encore des placeholders à remplacer** :
 - **E-mail** : `contact@moderne-isolation.fr` (à confirmer)
