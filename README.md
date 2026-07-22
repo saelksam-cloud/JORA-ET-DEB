@@ -25,7 +25,7 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - **Domaine** : `https://www.moderne-isolation.fr/` dans les balises canonical/OG/JSON-LD/sitemap.xml/robots.txt — à remplacer par votre vrai domaine (ex. moderne-isolation-13.fr) avant mise en ligne
 - **SIRET / forme juridique / assureur décennale** dans `mentions-legales.html`
 - **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
-- **Photos manquantes** : le slider "Avant / Après" et les illustrations du blog restent des emplacements — envoyez-moi des paires avant/après de la même pièce si vous en avez, sinon on regarde des illustrations pour le blog
+- **Photos manquantes** : les illustrations du blog restent des emplacements — on regarde ensemble des visuels pour ces articles
 - **LinkedIn** : lien `#` à remplacer par votre vraie page si vous en avez une
 
 ## Fonctionnalités
@@ -36,7 +36,6 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - Section "À propos" + bandeau chiffres clés (2016, +100 clients/an, 5/5, garantie décennale)
 - Bandeau de services (13 prestations) façon chips, fidèle au site actuel
 - Section détaillée texte + photo sur le savoir-faire (x2)
-- Slider avant/après interactif (glisser pour comparer)
 - Section "Bonnes raisons de choisir notre entreprise" (4 cartes)
 - Galerie de réalisations filtrable par catégorie
 - Bandeau CTA avec photo ("Contactez-nous pour discuter de votre projet")

@@ -229,29 +229,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .detail-image .photo-placeholder { height: 100%; }
 .detail-image img, .cta-photo-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ---------- Avant / Après comparison slider ---------- */
-.compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-.compare-slider { position: relative; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
-.compare-before, .compare-after { position: absolute; inset: 0; width: 100%; height: 100%; }
-.compare-before .photo-placeholder, .compare-after .photo-placeholder { border: none; border-radius: 0; }
-.compare-after { clip-path: inset(0 50% 0 0); }
-.compare-label { position: absolute; top: 14px; z-index: 2; background: rgba(255,255,255,0.92); color: var(--color-dark); font-weight: 700; font-size: 0.82rem; padding: 6px 14px; border-radius: 999px; }
-.compare-label-before { left: 14px; }
-.compare-label-after { right: 14px; }
-.compare-range {
-  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 3;
-  -webkit-appearance: none; appearance: none;
-}
-.compare-handle {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 40px; height: 40px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-md);
-  display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 2; color: var(--color-accent);
-}
-.compare-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); pointer-events: none; z-index: 1; }
-.compare-figure { margin: 0; }
-.compare-figure figcaption { text-align: center; margin-top: 12px; font-weight: 600; font-size: 0.92rem; color: var(--color-text); }
-.photo-placeholder.icon-only { align-items: flex-end; justify-content: flex-end; padding: 18px; box-sizing: border-box; }
-
 /* ---------- Photo placeholders (swap for real photos) ---------- */
 .photo-placeholder {
   display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px;
@@ -552,7 +529,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .reasons-grid { grid-template-columns: 1fr 1fr; }
-  .compare-grid { grid-template-columns: 1fr 1fr; }
   .cta-photo { grid-template-columns: 1fr; }
   .cta-photo-image { min-height: 220px; }
   .detail-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -592,7 +568,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .cta-banner-inner { flex-direction: column; text-align: center; }
   .rating-banner { flex-direction: column; text-align: center; }
   .reasons-grid { grid-template-columns: 1fr; }
-  .compare-grid { grid-template-columns: 1fr; }
   .cta-photo-text { padding: 48px 28px; }
   .detail-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
