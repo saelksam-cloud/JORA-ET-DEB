@@ -214,9 +214,24 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   background: linear-gradient(100deg, rgba(26,26,29,0.94) 0%, rgba(26,26,29,0.82) 38%, rgba(26,26,29,0.35) 72%, rgba(26,26,29,0.08) 100%);
 }
 .founder-banner-content { position: relative; z-index: 1; padding: 76px 0; max-width: 620px; }
-.founder-quote { margin: 14px 0 0; }
-.founder-quote p { color: #fff; font-size: 1.14rem; line-height: 1.65; margin: 0 0 16px; }
-.founder-quote footer { color: var(--color-accent-light); font-weight: 700; font-size: 1.02rem; margin-top: 10px; }
+.founder-quote {
+  position: relative; margin: 18px 0 0;
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.founder-quote::before {
+  content: "“"; position: absolute; top: -46px; left: -6px; font-size: 5.5rem; line-height: 1;
+  color: var(--color-accent-light); opacity: 0.55; font-family: Georgia, 'Palatino Linotype', serif;
+}
+.founder-quote p {
+  color: #fff; font-size: 1.2rem; font-style: italic; font-weight: 400;
+  line-height: 1.7; letter-spacing: 0.2px; margin: 0 0 18px;
+}
+.founder-quote footer {
+  color: var(--color-accent-light); font-style: normal; font-weight: 600;
+  font-size: 0.98rem; letter-spacing: 1.2px; text-transform: uppercase;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.25);
+  display: inline-block;
+}
 
 /* ---------- Services chip band ---------- */
 .services-band { background: linear-gradient(120deg, var(--color-accent-dark), var(--color-accent)); padding: 88px 0; }
@@ -591,5 +606,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .founder-banner-bg img { object-position: center 20%; }
   .founder-banner-overlay { background: linear-gradient(180deg, rgba(26,26,29,0.55) 0%, rgba(26,26,29,0.92) 55%, rgba(26,26,29,0.97) 100%); }
   .founder-banner-content { max-width: 100%; padding: 220px 0 44px; }
-  .founder-quote p { font-size: 1.02rem; }
+  .founder-quote::before { top: -34px; font-size: 4rem; }
+  .founder-quote p { font-size: 1.05rem; }
 }
