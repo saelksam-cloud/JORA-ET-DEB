@@ -19,7 +19,7 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 
 ## ⚠️ À vérifier / compléter avant mise en ligne
 
-**Déjà réel** (repris de votre site actuel) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention.
+**Déjà réel** (repris de votre site actuel / fourni par vous) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention, 6 vraies photos de chantiers (`images/realisations/`) utilisées dans la galerie "Réalisations" et les sections détail/CTA, et 5 vrais posts/reels Instagram intégrés via le widget officiel dans "Nos chantiers en vidéo" (pour en changer un : remplacer la valeur `data-instgrm-permalink` du `<blockquote class="instagram-media">` correspondant dans `index.html`).
 
 **Encore des placeholders à remplacer** :
 - **E-mail** : `contact@moderne-isolation.fr` (à confirmer)
@@ -27,10 +27,8 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - **Domaine** : `https://www.moderne-isolation.fr/` dans les balises canonical/OG/JSON-LD/sitemap.xml/robots.txt — à remplacer par votre vrai domaine (ex. moderne-isolation-13.fr) avant mise en ligne
 - **SIRET / forme juridique / assureur décennale** dans `mentions-legales.html`
 - **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
-- **Photos** : toutes les photos (hero, réalisations, section détail, blog) sont des emplacements identifiés en attendant vos fichiers — envoyez-les-moi pour que je les intègre
+- **Photos manquantes** : le slider "Avant / Après" et les illustrations du blog restent des emplacements — envoyez-moi des paires avant/après de la même pièce si vous en avez, sinon on regarde des illustrations pour le blog
 - **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, LinkedIn) — Instagram est déjà lié vers @moderneisolation
-
-**Déjà réel également** : la section "Nos chantiers en vidéo" intègre 5 de vos vrais posts/reels Instagram via le widget officiel `embed.js`. Pour changer une vidéo plus tard : remplacer la valeur `data-instgrm-permalink` du `<blockquote class="instagram-media">` correspondant, dans `index.html`, par l'URL du nouveau post.
 
 ## Fonctionnalités
 
