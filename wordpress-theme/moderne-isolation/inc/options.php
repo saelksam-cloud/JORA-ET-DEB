@@ -34,8 +34,8 @@ function mi_options_fields() {
 	return array(
 		'phone'                => array( 'label' => 'Téléphone (affiché)', 'default' => '06 35 35 63 45' ),
 		'phone_tel'             => array( 'label' => 'Téléphone (format tel:, ex. +33635356345)', 'default' => '+33635356345' ),
-		'email'                => array( 'label' => 'E-mail', 'default' => 'contact@moderne-isolation.fr' ),
-		'address'              => array( 'label' => 'Adresse', 'default' => '12 Avenue des Artisans, 13100 Aix-en-Provence' ),
+		'email'                => array( 'label' => 'E-mail', 'default' => 'moderneisolation13@gmail.com' ),
+		'address'              => array( 'label' => 'Adresse', 'default' => '520 Chemin du Pas de la Mue, 13170 Les Pennes-Mirabeau' ),
 		'siret'                => array( 'label' => 'SIRET', 'default' => '000 000 000 00000' ),
 		'hours'                => array( 'label' => 'Horaires', 'default' => 'Lun–Ven : 8h–18h · Sam : 9h–12h (sur RDV)' ),
 		'since_year'           => array( 'label' => 'Année de création', 'default' => '2016' ),

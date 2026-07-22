@@ -19,16 +19,14 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 
 ## ⚠️ À vérifier / compléter avant mise en ligne
 
-**Déjà réel** (repris de votre site actuel / fourni par vous) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention, 6 vraies photos de chantiers (`images/realisations/`) utilisées dans la galerie "Réalisations" et les sections détail/CTA, et 8 vrais posts/reels Instagram intégrés via le widget officiel dans "Nos chantiers en vidéo" (pour en changer un ou en ajouter : dupliquer un bloc `<div class="instagram-embed"><blockquote class="instagram-media" data-instgrm-permalink="...">` dans `index.html`).
+**Déjà réel** (repris de votre site actuel / fourni par vous) : nom, positionnement (rénovation intérieure/extérieure depuis 2016), téléphone `06 35 35 63 45`, e-mail `moderneisolation13@gmail.com`, adresse `520 Chemin du Pas de la Mue, 13170 Les Pennes-Mirabeau`, les 13 services, les avis clients (texte, prénoms, note 5/5 sur 24 avis Google), villes d'intervention, 6 vraies photos de chantiers (`images/realisations/`) utilisées dans la galerie "Réalisations" et les sections détail/CTA, 8 vrais posts/reels Instagram intégrés via le widget officiel dans "Nos chantiers en vidéo" (pour en changer un ou en ajouter : dupliquer un bloc `<div class="instagram-embed"><blockquote class="instagram-media" data-instgrm-permalink="...">` dans `index.html`), et le lien vers votre page Facebook (footer + section contact).
 
 **Encore des placeholders à remplacer** :
-- **E-mail** : `contact@moderne-isolation.fr` (à confirmer)
-- **Adresse** : `12 Avenue des Artisans, 13100 Aix-en-Provence` — adresse fictive, à remplacer par votre vraie adresse (ou à retirer si vous ne recevez pas de public)
 - **Domaine** : `https://www.moderne-isolation.fr/` dans les balises canonical/OG/JSON-LD/sitemap.xml/robots.txt — à remplacer par votre vrai domaine (ex. moderne-isolation-13.fr) avant mise en ligne
 - **SIRET / forme juridique / assureur décennale** dans `mentions-legales.html`
 - **Logos partenaires** (section "Ils nous font confiance") : logos d'exemple (Point.P, Leroy Merlin Pro, SOCOTEC, Qualibat, Saint-Gobain, MaPrimeRénov') à remplacer par vos vrais partenaires si vous en avez
 - **Photos manquantes** : le slider "Avant / Après" et les illustrations du blog restent des emplacements — envoyez-moi des paires avant/après de la même pièce si vous en avez, sinon on regarde des illustrations pour le blog
-- **Réseaux sociaux** : liens `#` à remplacer par vos vraies pages (Facebook, LinkedIn) — Instagram est déjà lié vers @moderneisolation
+- **LinkedIn** : lien `#` à remplacer par votre vraie page si vous en avez une
 
 ## Fonctionnalités
 
