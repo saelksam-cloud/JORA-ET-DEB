@@ -49,7 +49,7 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 
 ## SEO — ce qui a été mis en place
 
-- **Balises meta** : title et description uniques et optimisés, mots-clés locaux (Bouches-du-Rhône, Marseille, Aix-en-Provence, isolation, RGE Qualibat)
+- **Balises meta** : title et description uniques et optimisés, mots-clés locaux (Bouches-du-Rhône, Marseille, Aix-en-Provence, isolation)
 - **Open Graph / Twitter Cards** pour un bon rendu au partage sur les réseaux
 - **Données structurées JSON-LD** :
   - `HomeAndConstructionBusiness` (nom, adresse, géolocalisation, zone d'intervention, horaires, note moyenne, avis) → éligible aux Rich Results Google (étoiles, fiche locale)

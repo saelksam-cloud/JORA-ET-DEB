@@ -47,7 +47,7 @@ function mi_options_fields() {
 		'facebook_url'         => array( 'label' => 'Lien Facebook', 'default' => '#' ),
 		'instagram_url'        => array( 'label' => 'Lien Instagram', 'default' => '#' ),
 		'linkedin_url'         => array( 'label' => 'Lien LinkedIn', 'default' => '#' ),
-		'partners'             => array( 'label' => 'Partenaires (un par ligne)', 'default' => "Point.P\nLeroy Merlin Pro\nSOCOTEC\nQualibat RGE\nSaint-Gobain Isover\nMaPrimeRénov'", 'textarea' => true ),
+		'partners'             => array( 'label' => 'Partenaires (un par ligne)', 'default' => "Chausson Matériaux\nZolpan\nTollens\nLeroy Merlin", 'textarea' => true ),
 		'ga_measurement_id'    => array( 'label' => 'Google Analytics 4 — ID de mesure (G-XXXXXXXXXX)', 'default' => '' ),
 	);
 }
