@@ -565,7 +565,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
    ========================================================= */
 @media (max-width: 960px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-form-wrap { order: -1; }
   .zone-wrap { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
