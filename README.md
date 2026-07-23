@@ -81,14 +81,15 @@ Le site inclut une bannière de consentement cookies (RGPD) et un chargement con
 
 ## Prochaines étapes recommandées pour le référencement
 
-1. **Créer/optimiser votre fiche Google Business Profile** (avis Google = premier levier de confiance en local SEO) et lier la vraie note/nombre d'avis dans le JSON-LD.
-2. **Héberger le site sur le vrai domaine** et mettre à jour `canonical`, `og:url`, `sitemap.xml`, `robots.txt` en conséquence.
-3. **Ajouter de vraies photos** (chantiers, équipe, avant/après) compressées en WebP pour rester rapide.
-4. **Créer des pages dédiées par ville ou par service** (ex. `/isolation-combles-aix-en-provence/`) une fois le trafic établi, pour capter davantage de recherches locales longue traîne.
-5. **Obtenir des backlinks locaux** : annuaires du bâtiment, Chambre de Métiers, partenaires fournisseurs, presse locale.
-6. ~~Brancher le formulaire de contact à un vrai service d'envoi~~ — fait, voir section "Formulaire de devis" ci-dessous.
-7. **Soumettre le sitemap** dans Google Search Console et Bing Webmaster Tools.
-8. **Suivre les Core Web Vitals** via PageSpeed Insights une fois en ligne.
+1. ~~Héberger le site sur le vrai domaine~~ — fait, `www.moderneisolation.fr` via GitHub Pages, `canonical`/`og:url`/`sitemap.xml`/`robots.txt` déjà à jour.
+2. ~~Image de partage (`og:image`) et icône Apple~~ — fait, `images/og-cover.jpg` et `images/apple-touch-icon.png` sur toutes les pages.
+3. ~~Brancher le formulaire de contact à un vrai service d'envoi~~ — fait, voir section "Formulaire de devis" ci-dessous.
+4. **Soumettre le sitemap** dans Google Search Console (obligatoire pour être indexé rapidement) et Bing Webmaster Tools.
+5. **Créer/optimiser votre fiche Google Business Profile** (avis Google = premier levier de confiance en local SEO) et lier la vraie note/nombre d'avis dans le JSON-LD.
+6. **Obtenir des backlinks locaux** : annuaires du bâtiment, Chambre de Métiers, partenaires fournisseurs, presse locale — le domaine est tout neuf, sans aucun lien entrant pour l'instant.
+7. **Créer des pages dédiées par ville ou par service** (ex. `/isolation-combles-aix-en-provence/`) une fois le trafic établi, pour capter davantage de recherches locales longue traîne.
+8. **Convertir les photos en WebP** pour réduire encore le poids des pages (actuellement en JPEG).
+9. **Suivre les Core Web Vitals** via PageSpeed Insights maintenant que le site est en ligne.
 
 ## Développement local
 
