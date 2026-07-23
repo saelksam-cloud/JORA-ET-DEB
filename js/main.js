@@ -4,6 +4,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Hero stat rotator */
+  var rotator = document.getElementById('hero-stat-rotator');
+  if (rotator) {
+    var rotatorItems = rotator.querySelectorAll('.hero-stat-item');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rotatorItems.length > 1 && !reduceMotion) {
+      var rotatorIndex = 0;
+      setInterval(function () {
+        rotatorItems[rotatorIndex].classList.remove('is-active');
+        rotatorIndex = (rotatorIndex + 1) % rotatorItems.length;
+        rotatorItems[rotatorIndex].classList.add('is-active');
+      }, 2800);
+    }
+  }
+
   /* Mobile nav toggle */
   var navToggle = document.getElementById('nav-toggle');
   var mainNav = document.getElementById('main-nav');

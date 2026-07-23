@@ -140,6 +140,16 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .section-dark .text-accent, .services-band .text-accent { color: var(--color-accent-light); }
 .hero-lead { font-size: 1.08rem; color: var(--color-text-light); margin-bottom: 18px; max-width: 560px; }
 .hero-stat { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.98rem; margin-bottom: 28px; }
+.hero-stat-rotator { position: relative; display: inline-block; height: 1.3em; overflow: hidden; vertical-align: middle; min-width: 220px; }
+.hero-stat-item {
+  position: absolute; left: 0; top: 0; white-space: nowrap;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.hero-stat-item.is-active { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-stat-item { transition: none; }
+}
 .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 18px; }
 .hero-badges li { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 600; color: var(--color-text-light); }
@@ -582,6 +592,8 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
 @media (max-width: 720px) {
   .section { padding: 64px 0; }
+  .hero-stat-rotator { height: 2.6em; min-width: 0; flex: 1; }
+  .hero-stat-item { white-space: normal; width: 100%; }
   .grid-3 { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .form-row-2 { grid-template-columns: 1fr; }
@@ -654,7 +666,15 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
         <p class="hero-lead">Spécialisée dans la modernisation de maisons et d'appartements, notre entreprise intervient à Aix-en-Provence et dans toutes les <strong>Bouches-du-Rhône</strong>.</p>
         <p class="hero-stat">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBC02D" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
-          +100 clients accompagnés par an
+          <span class="hero-stat-rotator" id="hero-stat-rotator" aria-live="polite">
+            <span class="hero-stat-item is-active">+100 clients accompagnés</span>
+            <span class="hero-stat-item">Garantie décennale</span>
+            <span class="hero-stat-item">Accompagnement de A à Z</span>
+            <span class="hero-stat-item">Interlocuteur unique</span>
+            <span class="hero-stat-item">Une nouvelle manière de vivre vos travaux</span>
+            <span class="hero-stat-item">Devis gratuit sous 48h</span>
+            <span class="hero-stat-item">5/5 sur 24 avis Google</span>
+          </span>
         </p>
         <div class="hero-cta">
           <a href="tel:+33635356345" class="btn btn-primary btn-lg">
@@ -1341,6 +1361,21 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Footer year */
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* Hero stat rotator */
+  var rotator = document.getElementById('hero-stat-rotator');
+  if (rotator) {
+    var rotatorItems = rotator.querySelectorAll('.hero-stat-item');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rotatorItems.length > 1 && !reduceMotion) {
+      var rotatorIndex = 0;
+      setInterval(function () {
+        rotatorItems[rotatorIndex].classList.remove('is-active');
+        rotatorIndex = (rotatorIndex + 1) % rotatorItems.length;
+        rotatorItems[rotatorIndex].classList.add('is-active');
+      }, 2800);
+    }
+  }
 
   /* Mobile nav toggle */
   var navToggle = document.getElementById('nav-toggle');
