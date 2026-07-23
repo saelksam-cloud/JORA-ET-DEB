@@ -62,7 +62,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { passive: true });
   }
 
-  /* Contact form handling (client-side demo — hook up a real backend, see README) */
+  /* Contact form handling — sends the lead via Web3Forms to Gmail + the Odoo CRM alias.
+     Get your two free access keys at https://web3forms.com (one per destination email)
+     and paste them below. Until both are filled in, the form falls back to a local-only
+     success message so nothing breaks. */
+  var WEB3FORMS_KEY_GMAIL = 'YOUR_GMAIL_ACCESS_KEY';
+  var WEB3FORMS_KEY_ODOO = 'YOUR_ODOO_ACCESS_KEY';
+
   var form = document.getElementById('hero-form');
   var status = document.getElementById('hero-form-status');
   if (form) {
@@ -72,12 +78,41 @@ document.addEventListener('DOMContentLoaded', function () {
         form.reportValidity();
         return;
       }
-      status.textContent = 'Merci ! Votre demande a bien été envoyée, nous revenons vers vous sous 48h.';
-      status.className = 'form-status success';
-      if (typeof window.trackLeadSubmitted === 'function') {
-        window.trackLeadSubmitted(form.project.value);
+
+      var keysConfigured = WEB3FORMS_KEY_GMAIL.indexOf('YOUR_') !== 0 && WEB3FORMS_KEY_ODOO.indexOf('YOUR_') !== 0;
+
+      function finish(success) {
+        status.textContent = success
+          ? 'Merci ! Votre demande a bien été envoyée, nous revenons vers vous sous 48h.'
+          : 'Un souci est survenu, merci de réessayer ou de nous appeler directement.';
+        status.className = 'form-status ' + (success ? 'success' : 'error');
+        if (success) {
+          if (typeof window.trackLeadSubmitted === 'function') {
+            window.trackLeadSubmitted(form.project.value);
+          }
+          form.reset();
+        }
       }
-      form.reset();
+
+      if (!keysConfigured) {
+        finish(true);
+        return;
+      }
+
+      function submitTo(accessKey) {
+        var data = new FormData(form);
+        data.set('access_key', accessKey);
+        data.set('subject', 'Nouvelle demande de devis — Moderne Isolation');
+        return fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data
+        }).then(function (res) { return res.ok; }).catch(function () { return false; });
+      }
+
+      Promise.all([submitTo(WEB3FORMS_KEY_GMAIL), submitTo(WEB3FORMS_KEY_ODOO)]).then(function (results) {
+        finish(results.indexOf(true) !== -1);
+      });
     });
   }
 

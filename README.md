@@ -59,6 +59,18 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - **Mobile-first / responsive** : testé de 390px à 1440px
 - **Accessibilité** : lien d'évitement, attributs `aria-*`, contrastes suffisants, `alt`/labels sur les champs
 
+## Formulaire de devis (envoi par e-mail + Odoo CRM)
+
+Le formulaire du hero (`#hero-form`) envoie chaque demande via [Web3Forms](https://web3forms.com) (gratuit, sans backend) vers deux destinataires : votre Gmail (`moderneisolation13@gmail.com`) et l'alias e-mail "Lead" de votre CRM Odoo (`info@moderne-isolation.odoo.com`), qui crée automatiquement une fiche prospect dans Odoo.
+
+**Pour activer l'envoi** (2 clés gratuites à générer) :
+
+1. Allez sur [web3forms.com](https://web3forms.com), entrez `moderneisolation13@gmail.com` → vous recevez une clé d'accès par mail
+2. Recommencez avec `info@moderne-isolation.odoo.com` → la clé arrive sous forme de nouveau lead dans Odoo (ouvrez-le pour lire le mail et récupérer la clé)
+3. Dans `js/main.js`, remplacez `YOUR_GMAIL_ACCESS_KEY` et `YOUR_ODOO_ACCESS_KEY` par vos deux clés
+
+Tant que les clés ne sont pas renseignées, le formulaire affiche un message de succès local mais n'envoie rien nulle part (mode dégradé sans erreur visible pour le visiteur).
+
 ## Analytics (Google Analytics 4)
 
 Le site inclut une bannière de consentement cookies (RGPD) et un chargement conditionnel de GA4 dans `js/analytics.js` :
@@ -75,7 +87,7 @@ Le site inclut une bannière de consentement cookies (RGPD) et un chargement con
 3. **Ajouter de vraies photos** (chantiers, équipe, avant/après) compressées en WebP pour rester rapide.
 4. **Créer des pages dédiées par ville ou par service** (ex. `/isolation-combles-aix-en-provence/`) une fois le trafic établi, pour capter davantage de recherches locales longue traîne.
 5. **Obtenir des backlinks locaux** : annuaires du bâtiment, Chambre de Métiers, partenaires fournisseurs, presse locale.
-6. **Brancher le formulaire de contact à un vrai service d'envoi** (Formspree, Netlify Forms, ou un petit backend) — actuellement il valide côté client mais n'envoie nulle part.
+6. ~~Brancher le formulaire de contact à un vrai service d'envoi~~ — fait, voir section "Formulaire de devis" ci-dessous.
 7. **Soumettre le sitemap** dans Google Search Console et Bing Webmaster Tools.
 8. **Suivre les Core Web Vitals** via PageSpeed Insights une fois en ligne.
 
