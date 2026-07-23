@@ -11,7 +11,7 @@ index.html                    Page principale (landing page)
 mentions-legales.html         Mentions légales
 politique-confidentialite.html Politique de confidentialité / RGPD
 css/style.css                 Design system + styles
-js/main.js                    Menu mobile, accordéon FAQ, filtre galerie, formulaire
+js/main.js                    Menu mobile, accordéon FAQ, formulaire
 robots.txt                    Directives pour les moteurs de recherche
 sitemap.xml                   Plan du site pour l'indexation
 site.webmanifest              Manifeste PWA (icône, couleurs)
@@ -37,7 +37,7 @@ site.webmanifest              Manifeste PWA (icône, couleurs)
 - Bandeau de services (13 prestations) façon chips, fidèle au site actuel
 - Section détaillée texte + photo sur le savoir-faire (x2)
 - Section "Bonnes raisons de choisir notre entreprise" (4 cartes)
-- Galerie de réalisations filtrable par catégorie
+- Galerie de réalisations en carrousel horizontal (17 photos)
 - Bandeau CTA avec photo ("Contactez-nous pour discuter de votre projet")
 - Témoignages clients réels (avatars colorés, note Google agrégée 5/5 sur 24 avis)
 - Section partenaires / certifications

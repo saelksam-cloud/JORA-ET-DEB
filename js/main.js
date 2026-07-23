@@ -39,26 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* Gallery filter */
-  var filterTabs = document.querySelectorAll('.filter-tab');
-  var galleryCards = document.querySelectorAll('.gallery-card');
-  filterTabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      filterTabs.forEach(function (t) {
-        t.classList.remove('is-active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tab.classList.add('is-active');
-      tab.setAttribute('aria-selected', 'true');
-
-      var filter = tab.getAttribute('data-filter');
-      galleryCards.forEach(function (card) {
-        var match = filter === 'all' || card.getAttribute('data-cat') === filter;
-        card.classList.toggle('is-hidden', !match);
-      });
-    });
-  });
-
   /* Sticky header shadow on scroll */
   var header = document.getElementById('site-header');
   if (header) {
