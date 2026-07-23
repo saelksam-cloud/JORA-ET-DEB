@@ -161,8 +161,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   width: 100%; max-width: 420px; background: #fff; border-radius: var(--radius-lg);
   padding: 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);
 }
-.hero-form-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; color: var(--color-dark); margin-bottom: 4px; }
-.hero-form-subtitle { color: var(--color-text-light); font-size: 0.88rem; margin-bottom: 22px; }
+.hero-form-title {
+  font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem;
+  color: #fff; background: var(--color-accent);
+  display: table; margin: 0 auto 14px; padding: 11px 26px; border-radius: 999px;
+  text-align: center;
+}
+.hero-form-subtitle { color: var(--color-text-light); font-size: 0.88rem; margin-bottom: 22px; text-align: center; }
 
 /* ---------- Stats bar ---------- */
 .stats-bar { background: var(--color-dark); padding: 40px 0; }
@@ -730,7 +735,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <div class="hero-form-wrap" id="devis">
         <form class="hero-form" id="hero-form" novalidate>
           <p class="hero-form-title">Combien coûte votre projet ?</p>
-          <p class="hero-form-subtitle">On chiffre votre projet, détaillé en 48h</p>
+          <p class="hero-form-subtitle">On chiffre tout vos travaux en 48h</p>
 
           <div class="form-row">
             <label for="hf-name">Nom complet *</label>
