@@ -379,7 +379,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 .social-row a:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); border-color: var(--color-border); }
-.hero-social { margin-bottom: 18px; }
+.hero-social { margin-top: 18px; }
 .hero-social a { width: 34px; height: 34px; }
 
 .callout-card {
