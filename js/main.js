@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
      Get your two free access keys at https://web3forms.com (one per destination email)
      and paste them below. Until both are filled in, the form falls back to a local-only
      success message so nothing breaks. */
-  var WEB3FORMS_KEY_GMAIL = 'YOUR_GMAIL_ACCESS_KEY';
+  var WEB3FORMS_KEY_GMAIL = '5ee65a03-76fe-4a42-8b39-2bf36a4d5cb6';
   var WEB3FORMS_KEY_ODOO = 'YOUR_ODOO_ACCESS_KEY';
 
   var form = document.getElementById('hero-form');
