@@ -413,6 +413,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   width: 100%; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
   background: #fff; color: var(--color-text);
 }
+.contact-form textarea, .hero-form textarea { resize: vertical; font-family: inherit; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus,
 .hero-form input:focus, .hero-form select:focus, .hero-form textarea:focus {
   outline: 2px solid var(--color-accent); outline-offset: 1px; border-color: var(--color-accent);
@@ -766,6 +767,10 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
               <option>Aménagement intérieur / extérieur</option>
               <option>Autre</option>
             </select>
+          </div>
+          <div class="form-row">
+            <label for="hf-message">Parlez-nous de votre projet (facultatif)</label>
+            <textarea id="hf-message" name="message" rows="3" placeholder="Décrivez-nous en quelques mots ce que vous aimeriez faire..."></textarea>
           </div>
           <div class="form-row form-check">
             <input type="checkbox" id="hf-rgpd" name="rgpd" required>
