@@ -70,14 +70,21 @@ Le formulaire du hero (`#hero-form`) envoie chaque demande via [Web3Forms](https
 
 Tant que les clés ne sont pas renseignées, le formulaire affiche un message de succès local mais n'envoie rien nulle part (mode dégradé sans erreur visible pour le visiteur).
 
-## Analytics (Google Analytics 4)
+## Analytics (Google Analytics 4) et Google Ads
 
-Le site inclut une bannière de consentement cookies (RGPD) et un chargement conditionnel de GA4 dans `js/analytics.js` :
+Le site inclut une bannière de consentement cookies (RGPD) et un chargement conditionnel de GA4 **et** Google Ads dans `js/analytics.js` :
 
+**Google Analytics 4**
 1. Créez une propriété GA4 sur [analytics.google.com](https://analytics.google.com)
 2. Remplacez `G-XXXXXXXXXX` dans `js/analytics.js` (variable `GA_MEASUREMENT_ID`) par votre identifiant de mesure
-3. GA4 ne se charge qu'après acceptation du bandeau — tant que l'ID n'est pas renseigné, rien ne se charge
-4. Chaque envoi réussi du formulaire de devis déclenche un événement `generate_lead` (avec le type de projet choisi), utile pour suivre vos conversions dans GA4
+
+**Google Ads (suivi des conversions)**
+1. Dans votre compte [ads.google.com](https://ads.google.com) → **Outils et paramètres** → **Conversions** → **+ Nouvelle action de conversion** → **Site web**
+2. Nommez-la (ex. "Demande de devis"), catégorie "Prospect/Lead", puis créez-la
+3. Google Ads vous donne un **ID** (format `AW-XXXXXXXXX`) et une **étiquette de conversion** (une suite de lettres/chiffres) — remplacez `GOOGLE_ADS_ID` et `GOOGLE_ADS_CONVERSION_LABEL` dans `js/analytics.js` par ces deux valeurs
+4. Si vous lancez aussi des campagnes, utilisez le même `AW-XXXXXXXXX` comme "Google tag" à installer sur le site — c'est déjà fait ici, aucune autre action requise
+
+Ni GA4 ni Google Ads ne se chargent tant que les identifiants ne sont pas renseignés, et seulement après acceptation du bandeau cookies. Chaque envoi réussi du formulaire de devis déclenche un événement GA4 `generate_lead` (avec le type de projet) **et** un événement de conversion Google Ads — utile pour suivre le coût par devis dans vos campagnes.
 
 ## Prochaines étapes recommandées pour le référencement
 
