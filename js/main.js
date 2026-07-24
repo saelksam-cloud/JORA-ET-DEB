@@ -4,6 +4,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Floating quote CTA — appears once the hero is scrolled past */
+  var floatingCta = document.getElementById('floating-quote-cta');
+  var heroSection = document.getElementById('hero');
+  if (floatingCta && heroSection && 'IntersectionObserver' in window) {
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        floatingCta.classList.toggle('is-visible', !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+    heroObserver.observe(heroSection);
+  }
+
   /* Hero stat rotator */
   var rotator = document.getElementById('hero-stat-rotator');
   if (rotator) {
