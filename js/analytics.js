@@ -7,7 +7,7 @@
  */
 var GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
 var GOOGLE_ADS_ID = 'AW-18346441837';
-var GOOGLE_ADS_CONVERSION_LABEL = 'XXXXXXXXXX';
+var GOOGLE_ADS_CONVERSION_LABEL = 'S7p8COCZ6NUcEO34oaxE';
 var CONSENT_KEY = 'mi-cookie-consent';
 
 function loadGoogleTags() {
