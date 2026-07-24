@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* Scroll reveal for cards/sections */
-  var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .chip, .reason-card');
+  var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .service-tile, .reason-card');
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
