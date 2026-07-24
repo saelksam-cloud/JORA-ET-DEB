@@ -595,22 +595,25 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   align-items: center; justify-content: center; box-shadow: var(--shadow-lg);
 }
 
-/* ---------- Floating quote CTA (desktop) ---------- */
+/* ---------- Floating quote CTA — left side, eye-level on mobile; bottom-right on desktop ---------- */
 .floating-quote-cta {
-  display: none; position: fixed; bottom: 24px; right: 24px; z-index: 400;
-  align-items: center; gap: 10px; background: var(--color-accent); color: #fff;
-  padding: 14px 24px; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+  display: flex; position: fixed; top: 42%; left: 14px; margin-top: -22px; bottom: auto; right: auto; z-index: 400;
+  align-items: center; gap: 8px; background: var(--color-accent); color: #fff;
+  padding: 12px 20px; border-radius: 999px; font-weight: 700; font-size: 0.88rem;
   box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(16px) scale(0.95);
   pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
-.floating-quote-cta.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; animation: quote-cta-bounce 4s ease-in-out infinite; }
+.floating-quote-cta.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; animation: quote-cta-bounce 3s ease-in-out infinite; }
 .floating-quote-cta:hover { background: var(--color-accent-dark); box-shadow: 0 14px 30px rgba(0,0,0,0.22); transform: translateY(-2px) scale(1); animation-play-state: paused; }
-@media (min-width: 861px) { .floating-quote-cta { display: flex; } }
+@media (min-width: 861px) {
+  .floating-quote-cta { top: auto; left: auto; margin-top: 0; bottom: 24px; right: 24px; padding: 14px 24px; gap: 10px; font-size: 0.95rem; }
+}
 @keyframes quote-cta-bounce {
-  0%, 78%, 100% { transform: translateY(0) scale(1); }
-  84% { transform: translateY(-7px) scale(1); }
+  0%, 66%, 100% { transform: translateY(0) scale(1); }
+  72% { transform: translateY(-12px) scale(1.06); }
+  78% { transform: translateY(0) scale(1); }
+  84% { transform: translateY(-7px) scale(1.03); }
   90% { transform: translateY(0) scale(1); }
-  94% { transform: translateY(-4px) scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .floating-quote-cta.is-visible { animation: none; }
