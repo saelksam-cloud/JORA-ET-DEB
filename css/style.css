@@ -290,6 +290,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .photo-placeholder svg { opacity: 0.5; }
 
 /* ---------- Réalisations ---------- */
+.gallery-carousel { position: relative; }
 .gallery-scroll {
   display: flex; gap: 22px; overflow-x: auto; padding: 4px 4px 20px;
   scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
@@ -307,6 +308,34 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .gallery-card figcaption strong { display: block; font-size: 1rem; }
 .gallery-card figcaption span { color: var(--color-text-light); font-size: 0.85rem; }
 .gallery-note { text-align: center; color: var(--color-text-light); font-size: 0.85rem; margin-top: 32px; font-style: italic; }
+
+.gallery-arrow {
+  display: none; position: absolute; top: 42%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%; background: #fff; color: var(--color-dark);
+  border: 1px solid var(--color-border); box-shadow: var(--shadow-md);
+  align-items: center; justify-content: center; cursor: pointer; z-index: 5; padding: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.gallery-arrow:hover { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.gallery-arrow-prev { left: -24px; }
+.gallery-arrow-next { right: -24px; }
+.gallery-arrow.is-disabled { opacity: 0.35; pointer-events: none; }
+@media (min-width: 1280px) {
+  .gallery-arrow { display: flex; }
+  .gallery-arrow-prev { left: -56px; }
+  .gallery-arrow-next { right: -56px; }
+}
+@media (min-width: 900px) and (max-width: 1279px) {
+  .gallery-arrow { display: flex; }
+}
+
+/* Mobile "there's more to scroll" hint: fade the right edge of horizontal carousels */
+.gallery-carousel::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 20px; width: 44px;
+  background: linear-gradient(to right, rgba(255,255,255,0), var(--color-bg-alt));
+  pointer-events: none;
+}
+@media (min-width: 900px) { .gallery-carousel::after { display: none; } }
 
 /* ---------- Avis / testimonials ---------- */
 .rating-banner {
@@ -648,7 +677,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .instagram-grid::-webkit-scrollbar { height: 8px; }
   .instagram-grid::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
   .instagram-grid::-webkit-scrollbar-track { background: transparent; }
-  .instagram-embed { flex: 0 0 auto; width: min(340px, 92vw); min-height: 600px; scroll-snap-align: start; }
+  .instagram-embed { flex: 0 0 auto; width: min(320px, 85vw); min-height: 600px; scroll-snap-align: start; }
+  .instagram-carousel { position: relative; }
+  .instagram-carousel::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 16px; width: 40px;
+    background: linear-gradient(to right, rgba(247,247,248,0), var(--color-bg));
+    pointer-events: none;
+  }
   .founder-banner { min-height: 0; }
   .founder-banner-bg img { object-position: center 20%; }
   .founder-banner-overlay { background: linear-gradient(180deg, rgba(26,26,29,0.55) 0%, rgba(26,26,29,0.92) 55%, rgba(26,26,29,0.97) 100%); }

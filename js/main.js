@@ -16,6 +16,28 @@ document.addEventListener('DOMContentLoaded', function () {
     heroObserver.observe(heroSection);
   }
 
+  /* Réalisations gallery arrows */
+  var galleryScroll = document.getElementById('gallery-grid');
+  var galleryPrev = document.getElementById('gallery-prev');
+  var galleryNext = document.getElementById('gallery-next');
+  if (galleryScroll && galleryPrev && galleryNext) {
+    var scrollByCard = function (direction) {
+      var card = galleryScroll.querySelector('.gallery-card');
+      var step = card ? card.getBoundingClientRect().width + 22 : galleryScroll.clientWidth * 0.8;
+      galleryScroll.scrollBy({ left: direction * step, behavior: 'smooth' });
+    };
+    galleryPrev.addEventListener('click', function () { scrollByCard(-1); });
+    galleryNext.addEventListener('click', function () { scrollByCard(1); });
+
+    var updateGalleryArrows = function () {
+      var maxScroll = galleryScroll.scrollWidth - galleryScroll.clientWidth - 2;
+      galleryPrev.classList.toggle('is-disabled', galleryScroll.scrollLeft <= 0);
+      galleryNext.classList.toggle('is-disabled', galleryScroll.scrollLeft >= maxScroll);
+    };
+    galleryScroll.addEventListener('scroll', updateGalleryArrows, { passive: true });
+    updateGalleryArrows();
+  }
+
   /* Hero stat rotator */
   var rotator = document.getElementById('hero-stat-rotator');
   if (rotator) {

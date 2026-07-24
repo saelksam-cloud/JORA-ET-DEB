@@ -321,6 +321,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .photo-placeholder svg { opacity: 0.5; }
 
 /* ---------- Réalisations ---------- */
+.gallery-carousel { position: relative; }
 .gallery-scroll {
   display: flex; gap: 22px; overflow-x: auto; padding: 4px 4px 20px;
   scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
@@ -338,6 +339,34 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .gallery-card figcaption strong { display: block; font-size: 1rem; }
 .gallery-card figcaption span { color: var(--color-text-light); font-size: 0.85rem; }
 .gallery-note { text-align: center; color: var(--color-text-light); font-size: 0.85rem; margin-top: 32px; font-style: italic; }
+
+.gallery-arrow {
+  display: none; position: absolute; top: 42%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%; background: #fff; color: var(--color-dark);
+  border: 1px solid var(--color-border); box-shadow: var(--shadow-md);
+  align-items: center; justify-content: center; cursor: pointer; z-index: 5; padding: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.gallery-arrow:hover { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.gallery-arrow-prev { left: -24px; }
+.gallery-arrow-next { right: -24px; }
+.gallery-arrow.is-disabled { opacity: 0.35; pointer-events: none; }
+@media (min-width: 1280px) {
+  .gallery-arrow { display: flex; }
+  .gallery-arrow-prev { left: -56px; }
+  .gallery-arrow-next { right: -56px; }
+}
+@media (min-width: 900px) and (max-width: 1279px) {
+  .gallery-arrow { display: flex; }
+}
+
+/* Mobile "there's more to scroll" hint: fade the right edge of horizontal carousels */
+.gallery-carousel::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 20px; width: 44px;
+  background: linear-gradient(to right, rgba(255,255,255,0), var(--color-bg-alt));
+  pointer-events: none;
+}
+@media (min-width: 900px) { .gallery-carousel::after { display: none; } }
 
 /* ---------- Avis / testimonials ---------- */
 .rating-banner {
@@ -679,7 +708,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
   .instagram-grid::-webkit-scrollbar { height: 8px; }
   .instagram-grid::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
   .instagram-grid::-webkit-scrollbar-track { background: transparent; }
-  .instagram-embed { flex: 0 0 auto; width: min(340px, 92vw); min-height: 600px; scroll-snap-align: start; }
+  .instagram-embed { flex: 0 0 auto; width: min(320px, 85vw); min-height: 600px; scroll-snap-align: start; }
+  .instagram-carousel { position: relative; }
+  .instagram-carousel::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 16px; width: 40px;
+    background: linear-gradient(to right, rgba(247,247,248,0), var(--color-bg));
+    pointer-events: none;
+  }
   .founder-banner { min-height: 0; }
   .founder-banner-bg img { object-position: center 20%; }
   .founder-banner-overlay { background: linear-gradient(180deg, rgba(26,26,29,0.55) 0%, rgba(26,26,29,0.92) 55%, rgba(26,26,29,0.97) 100%); }
@@ -930,7 +965,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <div class="hero-form-wrap" id="devis">
         <form class="hero-form" id="hero-form" novalidate>
           <p class="hero-form-title">Combien coûte votre projet ?</p>
-          <p class="hero-form-subtitle">On chiffre tous vos travaux en 48h</p>
+          <p class="hero-form-subtitle">On vous répond, on chiffre tous vos travaux en 48h</p>
           <p class="hero-form-desc">Isolation, peinture, plâtrerie, maçonnerie... décrivez votre projet en quelques clics, on s'occupe du reste.</p>
 
           <div class="form-row">
@@ -1016,6 +1051,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
         <a href="https://www.instagram.com/moderneisolation/" target="_blank" rel="noopener" class="btn btn-outline">Suivre sur Instagram</a>
       </div>
 
+      <div class="instagram-carousel">
       <div class="instagram-grid">
         <div class="instagram-embed">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DYkP-kjMD_d/" data-instgrm-version="14"></blockquote>
@@ -1041,7 +1077,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
         <div class="instagram-embed">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DXwQLNfMDMn/" data-instgrm-version="14"></blockquote>
         </div>
-</div>
+      </div>
       </div>
     </div>
   </section>
@@ -1152,6 +1188,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <h2 class="section-title center">Nos réalisations</h2>
       <p class="section-lead center">Un aperçu de nos derniers chantiers de rénovation et d'isolation dans les Bouches-du-Rhône.</p>
 
+      <div class="gallery-carousel">
+        <button type="button" class="gallery-arrow gallery-arrow-prev" id="gallery-prev" aria-label="Photo précédente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="gallery-arrow gallery-arrow-next" id="gallery-next" aria-label="Photo suivante">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
       <div class="gallery-scroll" id="gallery-grid">
         <figure class="gallery-card">
           <div class="gallery-thumb"><img src="images/realisations/salle-de-bain-double-vasque-aix.jpg" alt="Rénovation de salle de bain avec douche à l'italienne, Les Pennes-Mirabeau" loading="lazy" width="1208" height="1600"></div>
@@ -1221,6 +1264,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
           <div class="gallery-thumb"><img src="images/realisations/construction-maison-aix.jpg" alt="Construction et extension de maison, Aix-en-Provence" loading="lazy" width="716" height="730"></div>
           <figcaption><strong>Extension de maison</strong><span>Aix-en-Provence</span></figcaption>
         </figure>
+      </div>
       </div>
     </div>
   </section>
@@ -1625,6 +1669,28 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }, { threshold: 0 });
     heroObserver.observe(heroSection);
+  }
+
+  /* Réalisations gallery arrows */
+  var galleryScroll = document.getElementById('gallery-grid');
+  var galleryPrev = document.getElementById('gallery-prev');
+  var galleryNext = document.getElementById('gallery-next');
+  if (galleryScroll && galleryPrev && galleryNext) {
+    var scrollByCard = function (direction) {
+      var card = galleryScroll.querySelector('.gallery-card');
+      var step = card ? card.getBoundingClientRect().width + 22 : galleryScroll.clientWidth * 0.8;
+      galleryScroll.scrollBy({ left: direction * step, behavior: 'smooth' });
+    };
+    galleryPrev.addEventListener('click', function () { scrollByCard(-1); });
+    galleryNext.addEventListener('click', function () { scrollByCard(1); });
+
+    var updateGalleryArrows = function () {
+      var maxScroll = galleryScroll.scrollWidth - galleryScroll.clientWidth - 2;
+      galleryPrev.classList.toggle('is-disabled', galleryScroll.scrollLeft <= 0);
+      galleryNext.classList.toggle('is-disabled', galleryScroll.scrollLeft >= maxScroll);
+    };
+    galleryScroll.addEventListener('scroll', updateGalleryArrows, { passive: true });
+    updateGalleryArrows();
   }
 
   /* Hero stat rotator */
