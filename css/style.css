@@ -153,12 +153,22 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 18px; }
 .hero-badges li { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 600; color: var(--color-text-light); }
 
-/* Hero quote form */
-.hero-form-wrap { display: flex; justify-content: center; scroll-margin-top: calc(var(--header-h) + 16px); }
+/* Hero chantier video */
+.hero-video-wrap { display: flex; justify-content: center; }
+.hero-video-card {
+  width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--color-border); aspect-ratio: 4/5;
+}
+.hero-video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video-card .photo-placeholder { height: 100%; }
+
+/* Contact form (moved down from hero) */
+.contact-form-wrap { scroll-margin-top: calc(var(--header-h) + 16px); }
 .hero-form {
   width: 100%; max-width: 420px; background: #fff; border-radius: var(--radius-lg);
   padding: 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);
 }
+.contact-quote-form { max-width: none; }
 .hero-form-title {
   font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; line-height: 1.2;
   color: var(--color-dark); text-align: center; margin: 0 0 10px; position: relative; padding-bottom: 12px;

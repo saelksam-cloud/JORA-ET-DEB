@@ -269,50 +269,10 @@
         </div>
       </div>
 
-      <div class="hero-form-wrap" id="devis">
-        <form class="hero-form" id="hero-form" novalidate>
-          <p class="hero-form-title">Combien coûte votre projet ?</p>
-          <p class="hero-form-subtitle">On vous répond, on chiffre tous vos travaux en 48h</p>
-          <p class="hero-form-desc">Isolation, peinture, plâtrerie, maçonnerie... décrivez votre projet en quelques clics, on s'occupe du reste.</p>
-
-          <div class="form-row">
-            <label for="hf-name">Nom complet *</label>
-            <input type="text" id="hf-name" name="name" required autocomplete="name">
-          </div>
-          <div class="form-row form-row-2">
-            <div>
-              <label for="hf-phone">Téléphone *</label>
-              <input type="tel" id="hf-phone" name="phone" required autocomplete="tel">
-            </div>
-            <div>
-              <label for="hf-email">E-mail *</label>
-              <input type="email" id="hf-email" name="email" required autocomplete="email">
-            </div>
-          </div>
-          <div class="form-row">
-            <label for="hf-project">Type de projet</label>
-            <select id="hf-project" name="project">
-              <option>Isolation</option>
-              <option>Peinture</option>
-              <option>Plâtrerie / Placo</option>
-              <option>Maçonnerie</option>
-              <option>Rénovation de maison</option>
-              <option>Aménagement intérieur / extérieur</option>
-              <option>Autre</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="hf-message">Parlez-nous de votre projet (facultatif)</label>
-            <textarea id="hf-message" name="message" rows="3" placeholder="Décrivez-nous en quelques mots ce que vous aimeriez faire..."></textarea>
-          </div>
-          <div class="form-row form-check">
-            <input type="checkbox" id="hf-rgpd" name="rgpd" required>
-            <label for="hf-rgpd">J'accepte d'être recontacté(e) au sujet de ma demande. *</label>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Obtenir mon devis gratuit →</button>
-          <p class="form-privacy-note">🔒 Vos coordonnées ne servent qu'à vous recontacter, jamais partagées.</p>
-          <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
-        </form>
+      <div class="hero-video-wrap">
+        <div class="hero-video-card">
+          <div class="photo-placeholder"><span>Vidéo de chantier à venir</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -859,25 +819,50 @@
           </div>
         </div>
 
-        <div class="callout-card">
-          <p class="eyebrow">Devis gratuit</p>
-          <h3>Prêt à démarrer votre projet ?</h3>
-          <p>Remplissez notre formulaire rapide en haut de page : nom, téléphone et type de projet suffisent pour lancer votre demande.</p>
-          <ul class="why-list callout-list">
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E9E6B" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-              <div><span>Réponse sous 48h</span></div>
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E9E6B" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-              <div><span>Devis détaillé et sans engagement</span></div>
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E9E6B" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-              <div><span>Accompagnement pour vos aides financières</span></div>
-            </li>
-          </ul>
-          <a href="#devis" class="btn btn-primary btn-lg btn-block">Remplir le formulaire ↑</a>
+        <div class="contact-form-wrap" id="devis">
+          <form class="hero-form contact-quote-form" id="hero-form" novalidate>
+            <p class="hero-form-title">Combien coûte votre projet ?</p>
+            <p class="hero-form-subtitle">On vous répond, on chiffre tous vos travaux en 48h</p>
+            <p class="hero-form-desc">Isolation, peinture, plâtrerie, maçonnerie... décrivez votre projet en quelques clics, on s'occupe du reste.</p>
+
+            <div class="form-row">
+              <label for="hf-name">Nom complet *</label>
+              <input type="text" id="hf-name" name="name" required autocomplete="name">
+            </div>
+            <div class="form-row form-row-2">
+              <div>
+                <label for="hf-phone">Téléphone *</label>
+                <input type="tel" id="hf-phone" name="phone" required autocomplete="tel">
+              </div>
+              <div>
+                <label for="hf-email">E-mail *</label>
+                <input type="email" id="hf-email" name="email" required autocomplete="email">
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="hf-project">Type de projet</label>
+              <select id="hf-project" name="project">
+                <option>Isolation</option>
+                <option>Peinture</option>
+                <option>Plâtrerie / Placo</option>
+                <option>Maçonnerie</option>
+                <option>Rénovation de maison</option>
+                <option>Aménagement intérieur / extérieur</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="hf-message">Parlez-nous de votre projet (facultatif)</label>
+              <textarea id="hf-message" name="message" rows="3" placeholder="Décrivez-nous en quelques mots ce que vous aimeriez faire..."></textarea>
+            </div>
+            <div class="form-row form-check">
+              <input type="checkbox" id="hf-rgpd" name="rgpd" required>
+              <label for="hf-rgpd">J'accepte d'être recontacté(e) au sujet de ma demande. *</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Obtenir mon devis gratuit →</button>
+            <p class="form-privacy-note">🔒 Vos coordonnées ne servent qu'à vous recontacter, jamais partagées.</p>
+            <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
+          </form>
         </div>
       </div>
     </div>
