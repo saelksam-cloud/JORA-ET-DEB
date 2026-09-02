@@ -5,7 +5,7 @@
  *    ("Demande de devis" / type Site web), copiez l'ID (format AW-XXXXXXXXX) et l'étiquette de conversion,
  *    remplacez GOOGLE_ADS_ID et GOOGLE_ADS_CONVERSION_LABEL ci-dessous.
  */
-var GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+var GA_MEASUREMENT_ID = 'G-BQYG8JDEFX';
 var GOOGLE_ADS_ID = 'AW-18346441837';
 var GOOGLE_ADS_CONVERSION_LABEL = 'S7p8COCZ6NUcEO34oaxE';
 var CONSENT_KEY = 'mi-cookie-consent';
