@@ -103,9 +103,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var WEB3FORMS_KEY_GMAIL = '5ee65a03-76fe-4a42-8b39-2bf36a4d5cb6';
   var WEB3FORMS_KEY_ODOO = 'c3b2d6a0-ad34-460c-9fff-909fa056c85d';
 
-  var form = document.getElementById('hero-form');
-  var status = document.getElementById('hero-form-status');
-  if (form) {
+  function wireQuoteForm(form, status, onSuccess) {
+    if (!form || !status) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) {
@@ -122,9 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
         status.className = 'form-status ' + (success ? 'success' : 'error');
         if (success) {
           if (typeof window.trackLeadSubmitted === 'function') {
-            window.trackLeadSubmitted(form.project.value);
+            window.trackLeadSubmitted();
           }
           form.reset();
+          if (typeof onSuccess === 'function') onSuccess();
         }
       }
 
@@ -147,6 +147,52 @@ document.addEventListener('DOMContentLoaded', function () {
       Promise.all([submitTo(WEB3FORMS_KEY_GMAIL), submitTo(WEB3FORMS_KEY_ODOO)]).then(function (results) {
         finish(results.indexOf(true) !== -1);
       });
+    });
+  }
+
+  wireQuoteForm(document.getElementById('hero-form'), document.getElementById('hero-form-status'));
+
+  /* Capture pop-up — a short duplicate form shown once per visit, after a delay or scroll depth */
+  var popupOverlay = document.getElementById('popup-overlay');
+  var popupClose = document.getElementById('popup-close');
+  var POPUP_SEEN_KEY = 'mi-popup-seen';
+
+  if (popupOverlay) {
+    var popupShown = false;
+
+    function showPopup() {
+      if (popupShown) return;
+      var alreadySeen = false;
+      try { alreadySeen = sessionStorage.getItem(POPUP_SEEN_KEY) === '1'; } catch (err) {}
+      if (alreadySeen) return;
+      popupShown = true;
+      popupOverlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      try { sessionStorage.setItem(POPUP_SEEN_KEY, '1'); } catch (err) {}
+    }
+
+    function hidePopup() {
+      popupOverlay.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    var popupTimer = setTimeout(showPopup, 22000);
+
+    window.addEventListener('scroll', function () {
+      var scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrolled > 0.55) {
+        clearTimeout(popupTimer);
+        showPopup();
+      }
+    }, { passive: true });
+
+    if (popupClose) popupClose.addEventListener('click', hidePopup);
+    popupOverlay.addEventListener('click', function (e) {
+      if (e.target === popupOverlay) hidePopup();
+    });
+
+    wireQuoteForm(document.getElementById('popup-form'), document.getElementById('popup-form-status'), function () {
+      setTimeout(hidePopup, 1800);
     });
   }
 
