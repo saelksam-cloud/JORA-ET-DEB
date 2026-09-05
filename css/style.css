@@ -136,28 +136,30 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 48px; }
 
 /* ---------- Visitor gate (particulier / professionnel) ---------- */
+/* Sits below the existing site header (kept visible: logo, phone, devis gratuit)
+   and covers the rest of the viewport until a choice is made. */
 .visitor-gate {
-  position: fixed; inset: 0; z-index: 1000;
-  align-items: center; justify-content: center; padding: 24px;
+  position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 400;
+  align-items: center; justify-content: center; overflow-y: auto; padding: 24px;
   background: linear-gradient(160deg, #FFF7F1 0%, #FFFFFF 70%);
   animation: gate-fade 0.2s ease;
 }
 .visitor-gate:not([hidden]) { display: flex; }
-.visitor-gate-inner { width: 100%; max-width: 640px; text-align: center; }
-.visitor-gate-logo { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 1.1rem; margin-bottom: 28px; }
-.visitor-gate-title { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; margin-bottom: 8px; }
-.visitor-gate-lead { color: var(--color-text-light); margin-bottom: 32px; }
-.visitor-gate-options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.visitor-gate-inner { width: 100%; max-width: 420px; text-align: center; margin: auto; }
+.visitor-gate-logo { display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; font-size: 1.15rem; margin-bottom: 20px; }
+.visitor-gate-logo strong { color: var(--color-accent); }
+.visitor-gate-video { display: flex; justify-content: center; margin-bottom: 22px; }
+.visitor-gate-video .hero-video-card { max-width: 220px; }
+.visitor-gate-lead { font-weight: 700; font-size: 1.1rem; margin-bottom: 16px; }
+.visitor-gate-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .visitor-gate-card {
-  display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
   background: #fff; border: 2px solid var(--color-border); border-radius: var(--radius-lg);
-  padding: 32px 20px; cursor: pointer; transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  padding: 20px 12px; cursor: pointer; transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 .visitor-gate-card:hover, .visitor-gate-card:focus-visible { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-.visitor-gate-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; color: var(--color-accent); }
-.visitor-gate-label { font-weight: 700; font-size: 1.05rem; }
-.visitor-gate-desc { font-size: 0.85rem; color: var(--color-text-light); line-height: 1.4; }
-@media (max-width: 560px) { .visitor-gate-options { grid-template-columns: 1fr; } }
+.visitor-gate-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; color: var(--color-accent); }
+.visitor-gate-label { font-weight: 700; font-size: 0.98rem; }
 @keyframes gate-fade { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .visitor-gate { animation: none; } }
 .hero-content h1 { font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 800; margin-bottom: 18px; }

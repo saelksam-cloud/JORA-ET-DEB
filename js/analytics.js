@@ -51,7 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (consent === 'granted') {
     loadGoogleTags();
   } else if (consent !== 'denied') {
-    banner.hidden = false;
+    /* Don't show the cookie banner on top of the mandatory visitor gate
+       (particulier/professionnel) — wait until it's been dismissed. */
+    var gate = document.getElementById('visitor-gate');
+    if (gate && !gate.hidden) {
+      document.addEventListener('mi:visitor-chosen', function () { banner.hidden = false; }, { once: true });
+    } else {
+      banner.hidden = false;
+    }
   }
 
   var acceptBtn = document.getElementById('cookie-accept');
