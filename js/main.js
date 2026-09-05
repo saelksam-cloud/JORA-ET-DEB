@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Visitor switch (particulier / professionnel) — both lead to the same site for now,
+     this just remembers the choice and drops the visitor into the services section. */
+  var visitorParticulier = document.getElementById('visitor-particulier');
+  var visitorPro = document.getElementById('visitor-professionnel');
+  if (visitorParticulier && visitorPro) {
+    var setVisitor = function (type) {
+      visitorParticulier.classList.toggle('is-active', type === 'particulier');
+      visitorParticulier.setAttribute('aria-pressed', type === 'particulier');
+      visitorPro.classList.toggle('is-active', type === 'professionnel');
+      visitorPro.setAttribute('aria-pressed', type === 'professionnel');
+      try { localStorage.setItem('mi-visitor-type', type); } catch (err) {}
+      var target = document.getElementById('services');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    visitorParticulier.addEventListener('click', function () { setVisitor('particulier'); });
+    visitorPro.addEventListener('click', function () { setVisitor('professionnel'); });
+  }
+
   /* Floating quote CTA — appears once the hero is scrolled past */
   var floatingCta = document.getElementById('floating-quote-cta');
   var heroSection = document.getElementById('hero');

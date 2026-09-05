@@ -165,8 +165,18 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--color-dark); border-radius: 2px; transition: 0.2s; }
 
 /* ---------- Hero ---------- */
-.hero { padding: 72px 0 60px; background: linear-gradient(180deg, #FFF7F1 0%, #FFFFFF 60%); overflow: hidden; }
-.hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 48px; }
+.hero { padding: 28px 0 60px; background: linear-gradient(180deg, #FFF7F1 0%, #FFFFFF 60%); overflow: hidden; }
+.hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 48px; margin-top: 28px; }
+
+/* ---------- Visitor switch (particulier / professionnel) ---------- */
+.visitor-switch { display: flex; justify-content: center; gap: 4px; background: #fff; border: 1px solid var(--color-border); border-radius: 999px; padding: 4px; max-width: 460px; margin: 0 auto; box-shadow: var(--shadow-sm); }
+.visitor-switch-btn {
+  flex: 1; border: none; background: none; padding: 10px 18px; border-radius: 999px;
+  font-weight: 700; font-size: 0.88rem; color: var(--color-text-light); cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.visitor-switch-btn.is-active { background: var(--color-accent); color: #fff; }
+@media (max-width: 480px) { .visitor-switch-btn { padding: 10px 8px; font-size: 0.8rem; } }
 .hero-content h1 { font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 800; margin-bottom: 18px; }
 .text-accent { color: var(--color-accent); }
 .section-dark .text-accent, .services-band .text-accent { color: var(--color-accent-light); }
@@ -947,6 +957,12 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
+    <div class="container">
+      <div class="visitor-switch" role="group" aria-label="Vous êtes...">
+        <button type="button" class="visitor-switch-btn is-active" id="visitor-particulier" aria-pressed="true">Je suis un particulier</button>
+        <button type="button" class="visitor-switch-btn" id="visitor-professionnel" aria-pressed="false">Je suis un professionnel</button>
+      </div>
+    </div>
     <div class="container hero-inner">
       <div class="hero-content">
         <p class="eyebrow">Bouches-du-Rhône · Rénovation sur mesure depuis 2016</p>
@@ -1029,6 +1045,30 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <div class="stat"><span class="stat-num">+100</span><span class="stat-label">Clients accompagnés par an</span></div>
       <div class="stat"><span class="stat-num">5/5</span><span class="stat-label">Note sur 24 avis Google</span></div>
       <div class="stat"><span class="stat-num">10 ans</span><span class="stat-label">Garantie décennale</span></div>
+    </div>
+  </section>
+
+  <!-- ===== ZONE D'INTERVENTION ===== -->
+  <section class="section section-alt" id="zone">
+    <div class="container">
+      <p class="eyebrow center">Où intervenons-nous ?</p>
+      <h2 class="section-title center">Zone d'intervention en Bouches-du-Rhône</h2>
+      <p class="section-lead center">Nos équipes se déplacent dans tout le département pour vos travaux d'isolation et de rénovation.</p>
+
+      <div class="zone-wrap">
+        <div>
+          <ul class="city-chips">
+            <li>Marseille</li><li>Aix-en-Provence</li><li>Aubagne</li><li>Salon-de-Provence</li>
+            <li>Istres</li><li>Martigues</li><li>Arles</li><li>Vitrolles</li>
+            <li>La Ciotat</li><li>Miramas</li><li>Gardanne</li><li>Marignane</li>
+            <li>Saint-Cyr-sur-Mer</li><li>Le Castellet</li>
+          </ul>
+          <p class="zone-humor">Un peu plus loin ? Si c'est en Provence et qu'on peut y aller en moins d'une heure, on y va — même s'il faut sortir du 13.</p>
+        </div>
+        <div class="map-embed">
+          <iframe title="Zone d'intervention Moderne Isolation" src="https://maps.google.com/maps?q=Bouches-du-Rh%C3%B4ne&t=&z=9&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1383,30 +1423,6 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
     </div>
   </section>
 
-  <!-- ===== ZONE D'INTERVENTION ===== -->
-  <section class="section section-alt" id="zone">
-    <div class="container">
-      <p class="eyebrow center">Où intervenons-nous ?</p>
-      <h2 class="section-title center">Zone d'intervention en Bouches-du-Rhône</h2>
-      <p class="section-lead center">Nos équipes se déplacent dans tout le département pour vos travaux d'isolation et de rénovation.</p>
-
-      <div class="zone-wrap">
-        <div>
-          <ul class="city-chips">
-            <li>Marseille</li><li>Aix-en-Provence</li><li>Aubagne</li><li>Salon-de-Provence</li>
-            <li>Istres</li><li>Martigues</li><li>Arles</li><li>Vitrolles</li>
-            <li>La Ciotat</li><li>Miramas</li><li>Gardanne</li><li>Marignane</li>
-            <li>Saint-Cyr-sur-Mer</li><li>Le Castellet</li>
-          </ul>
-          <p class="zone-humor">Un peu plus loin ? Si c'est en Provence et qu'on peut y aller en moins d'une heure, on y va — même s'il faut sortir du 13.</p>
-        </div>
-        <div class="map-embed">
-          <iframe title="Zone d'intervention Moderne Isolation" src="https://maps.google.com/maps?q=Bouches-du-Rh%C3%B4ne&t=&z=9&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== FAQ ===== -->
   <section class="section" id="faq">
     <div class="container container-narrow">
@@ -1650,6 +1666,24 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Footer year */
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* Visitor switch (particulier / professionnel) — both lead to the same site for now,
+     this just remembers the choice and drops the visitor into the services section. */
+  var visitorParticulier = document.getElementById('visitor-particulier');
+  var visitorPro = document.getElementById('visitor-professionnel');
+  if (visitorParticulier && visitorPro) {
+    var setVisitor = function (type) {
+      visitorParticulier.classList.toggle('is-active', type === 'particulier');
+      visitorParticulier.setAttribute('aria-pressed', type === 'particulier');
+      visitorPro.classList.toggle('is-active', type === 'professionnel');
+      visitorPro.setAttribute('aria-pressed', type === 'professionnel');
+      try { localStorage.setItem('mi-visitor-type', type); } catch (err) {}
+      var target = document.getElementById('services');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    visitorParticulier.addEventListener('click', function () { setVisitor('particulier'); });
+    visitorPro.addEventListener('click', function () { setVisitor('professionnel'); });
+  }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
   var floatingCta = document.getElementById('floating-quote-cta');
