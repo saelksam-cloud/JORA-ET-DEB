@@ -163,16 +163,12 @@
 <body>
 
 <div class="visitor-gate" id="visitor-gate" role="dialog" aria-modal="true" aria-labelledby="visitor-gate-title" hidden>
-  <div class="visitor-gate-inner">
-    <div class="visitor-gate-logo">
-      <img src="images/logo-m.png" alt="" width="26" height="30">
-      <span>Moderne <strong>isolation</strong></span>
-    </div>
-    <div class="visitor-gate-video">
-      <div class="hero-video-card">
-        <div class="photo-placeholder"><span>Vidéo de chantier à venir</span></div>
-      </div>
-    </div>
+  <div class="visitor-gate-video">
+    <video class="visitor-gate-media" autoplay muted loop playsinline poster="images/realisations/preparation-peinture-chantier-aix.jpg">
+      <source src="videos/chantier-teaser.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="visitor-gate-overlay">
     <p class="visitor-gate-lead" id="visitor-gate-title">Vous êtes...</p>
     <div class="visitor-gate-options">
       <button type="button" class="visitor-gate-card" id="gate-particulier">
@@ -309,7 +305,9 @@
 
       <div class="hero-video-wrap">
         <div class="hero-video-card">
-          <div class="photo-placeholder"><span>Vidéo de chantier à venir</span></div>
+          <video autoplay muted loop playsinline poster="images/realisations/preparation-peinture-chantier-aix.jpg">
+            <source src="videos/chantier-teaser.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>

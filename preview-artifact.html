@@ -169,32 +169,40 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 48px; }
 
 /* ---------- Visitor gate (particulier / professionnel) ---------- */
-/* Sits below the existing site header (kept visible: logo, phone, devis gratuit)
-   and covers the rest of the viewport until a choice is made. */
+/* Sits below the existing site header (kept visible: logo, phone, devis gratuit).
+   A full-bleed looping video fills the space, with the two choices overlaid on top
+   of it, until a choice is made. */
 .visitor-gate {
   position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 400;
-  align-items: center; justify-content: center; overflow-y: auto; padding: 24px;
-  background: linear-gradient(160deg, #FFF7F1 0%, #FFFFFF 70%);
+  overflow: hidden;
   animation: gate-fade 0.2s ease;
 }
-.visitor-gate:not([hidden]) { display: flex; }
-.visitor-gate-inner { width: 100%; max-width: 420px; text-align: center; margin: auto; }
-.visitor-gate-logo { display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; font-size: 1.15rem; margin-bottom: 20px; }
-.visitor-gate-logo strong { color: var(--color-accent); }
-.visitor-gate-video { display: flex; justify-content: center; margin-bottom: 22px; }
-.visitor-gate-video .hero-video-card { max-width: 220px; }
-.visitor-gate-lead { font-weight: 700; font-size: 1.1rem; margin-bottom: 16px; }
-.visitor-gate-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.visitor-gate:not([hidden]) { display: block; }
+.visitor-gate-video { position: absolute; inset: 0; background: var(--color-dark); }
+.visitor-gate-media { width: 100%; height: 100%; object-fit: cover; display: block; }
+.visitor-gate-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  padding: 60px 20px 32px;
+  background: linear-gradient(180deg, rgba(26,26,29,0) 0%, rgba(26,26,29,0.6) 55%, rgba(26,26,29,0.82) 100%);
+}
+.visitor-gate-lead { font-weight: 700; font-size: 1.1rem; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+.visitor-gate-options { display: flex; gap: 14px; width: 100%; max-width: 420px; }
 .visitor-gate-card {
-  display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
-  background: #fff; border: 2px solid var(--color-border); border-radius: var(--radius-lg);
-  padding: 20px 12px; cursor: pointer; transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+  background: rgba(255,255,255,0.94); border: 2px solid transparent; border-radius: var(--radius-lg);
+  padding: 18px 12px; cursor: pointer; transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 .visitor-gate-card:hover, .visitor-gate-card:focus-visible { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 .visitor-gate-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; color: var(--color-accent); }
-.visitor-gate-label { font-weight: 700; font-size: 0.98rem; }
+.visitor-gate-label { font-weight: 700; font-size: 0.98rem; color: var(--color-dark); }
 @keyframes gate-fade { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .visitor-gate { animation: none; } }
+/* Hide the floating call/WhatsApp/quote buttons while the gate is up — they'd
+   otherwise float on top of (and collide with) the Particulier/Professionnel cards. */
+#visitor-gate:not([hidden]) ~ .mobile-call-fab,
+#visitor-gate:not([hidden]) ~ .whatsapp-fab,
+#visitor-gate:not([hidden]) ~ .floating-quote-cta { display: none; }
 .hero-content h1 { font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 800; margin-bottom: 18px; }
 .text-accent { color: var(--color-accent); }
 .section-dark .text-accent, .services-band .text-accent { color: var(--color-accent-light); }
@@ -936,16 +944,12 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 <body>
 
 <div class="visitor-gate" id="visitor-gate" role="dialog" aria-modal="true" aria-labelledby="visitor-gate-title" hidden>
-  <div class="visitor-gate-inner">
-    <div class="visitor-gate-logo">
-      <img src="images/logo-m.png" alt="" width="26" height="30">
-      <span>Moderne <strong>isolation</strong></span>
-    </div>
-    <div class="visitor-gate-video">
-      <div class="hero-video-card">
-        <div class="photo-placeholder"><span>Vidéo de chantier à venir</span></div>
-      </div>
-    </div>
+  <div class="visitor-gate-video">
+    <video class="visitor-gate-media" autoplay muted loop playsinline poster="images/realisations/preparation-peinture-chantier-aix.jpg">
+      <source src="videos/chantier-teaser.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="visitor-gate-overlay">
     <p class="visitor-gate-lead" id="visitor-gate-title">Vous êtes...</p>
     <div class="visitor-gate-options">
       <button type="button" class="visitor-gate-card" id="gate-particulier">
@@ -1082,7 +1086,9 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
       <div class="hero-video-wrap">
         <div class="hero-video-card">
-          <div class="photo-placeholder"><span>Vidéo de chantier à venir</span></div>
+          <video autoplay muted loop playsinline poster="images/realisations/preparation-peinture-chantier-aix.jpg">
+            <source src="videos/chantier-teaser.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
