@@ -4,22 +4,25 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* Visitor switch (particulier / professionnel) — both lead to the same site for now,
-     this just remembers the choice and drops the visitor into the services section. */
-  var visitorParticulier = document.getElementById('visitor-particulier');
-  var visitorPro = document.getElementById('visitor-professionnel');
-  if (visitorParticulier && visitorPro) {
-    var setVisitor = function (type) {
-      visitorParticulier.classList.toggle('is-active', type === 'particulier');
-      visitorParticulier.setAttribute('aria-pressed', type === 'particulier');
-      visitorPro.classList.toggle('is-active', type === 'professionnel');
-      visitorPro.setAttribute('aria-pressed', type === 'professionnel');
-      try { localStorage.setItem('mi-visitor-type', type); } catch (err) {}
-      var target = document.getElementById('services');
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  /* Visitor gate (particulier / professionnel) — shown once per browser session on
+     load; both choices lead to the same site for now, this just remembers the pick
+     (for a future dedicated B2B experience) and unlocks the page. */
+  var visitorGate = document.getElementById('visitor-gate');
+  var gateWasOpen = !!(visitorGate && !visitorGate.hidden);
+  if (visitorGate) {
+    var gateParticulier = document.getElementById('gate-particulier');
+    var gatePro = document.getElementById('gate-professionnel');
+    var chooseVisitor = function (type) {
+      try {
+        sessionStorage.setItem('mi-visitor-type', type);
+        localStorage.setItem('mi-visitor-type', type);
+      } catch (err) {}
+      visitorGate.hidden = true;
+      document.documentElement.style.overflow = '';
+      document.dispatchEvent(new Event('mi:visitor-chosen'));
     };
-    visitorParticulier.addEventListener('click', function () { setVisitor('particulier'); });
-    visitorPro.addEventListener('click', function () { setVisitor('professionnel'); });
+    if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
+    if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
@@ -194,15 +197,22 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.style.overflow = '';
     }
 
-    var popupTimer = setTimeout(showPopup, 22000);
+    function startPopupTriggers() {
+      var popupTimer = setTimeout(showPopup, 22000);
+      window.addEventListener('scroll', function () {
+        var scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        if (scrolled > 0.55) {
+          clearTimeout(popupTimer);
+          showPopup();
+        }
+      }, { passive: true });
+    }
 
-    window.addEventListener('scroll', function () {
-      var scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      if (scrolled > 0.55) {
-        clearTimeout(popupTimer);
-        showPopup();
-      }
-    }, { passive: true });
+    if (gateWasOpen) {
+      document.addEventListener('mi:visitor-chosen', startPopupTriggers, { once: true });
+    } else {
+      startPopupTriggers();
+    }
 
     if (popupClose) popupClose.addEventListener('click', hidePopup);
     popupOverlay.addEventListener('click', function (e) {
