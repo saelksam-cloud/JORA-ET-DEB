@@ -166,7 +166,15 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
 /* ---------- Hero ---------- */
 .hero { padding: 72px 0 60px; background: linear-gradient(180deg, #FFF7F1 0%, #FFFFFF 60%); overflow: hidden; }
-.hero-inner { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 48px; }
+/* Not wrapped in .container: the left inset (padding on the grid itself, not on
+   the text column, so it doesn't eat into the column's own width) re-creates the
+   container's left edge, while the video column is free to extend all the way to
+   the right edge of the viewport. */
+.hero-inner {
+  display: grid; grid-template-columns: minmax(0, 560px) 1fr; align-items: stretch; gap: 48px;
+  padding-left: max(24px, calc((100vw - 1180px) / 2 + 24px));
+  box-sizing: border-box;
+}
 
 /* ---------- Visitor gate (particulier / professionnel) ---------- */
 /* Sits below the existing site header (kept visible: logo, phone, devis gratuit).
@@ -225,12 +233,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 18px; }
 .hero-badges li { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 600; color: var(--color-text-light); }
 
-/* Hero chantier video — fills the entire right half of the hero (width and height),
-   matching the height of the text column instead of floating as a smaller centered box. */
+/* Hero chantier video — fills the entire right side of the hero (width and height),
+   bleeding all the way to the right edge of the viewport; rounded only on the side
+   facing the text since the right edge touches the browser edge. */
 .hero-video-wrap { display: flex; }
 .hero-video-card {
-  width: 100%; height: 100%; min-height: 320px; border-radius: var(--radius-lg); overflow: hidden;
-  box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);
+  width: 100%; height: 100%; min-height: 320px; border-radius: var(--radius-lg) 0 0 var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--color-border); border-right: none;
 }
 .hero-video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-video-card .photo-placeholder { height: 100%; }
@@ -744,7 +753,8 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
    Responsive
    ========================================================= */
 @media (max-width: 960px) {
-  .hero-inner { grid-template-columns: 1fr; }
+  .hero-inner { grid-template-columns: 1fr; padding-left: 24px; padding-right: 24px; }
+  .hero-video-card { border-radius: var(--radius-lg); border-right: 1px solid var(--color-border); }
   .zone-wrap { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1021,7 +1031,8 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
-    <div class="container hero-inner">
+    <div class="hero-inner">
+      <div class="hero-content-col">
       <div class="hero-content">
         <p class="eyebrow">Bouches-du-Rhône · Rénovation sur mesure depuis 2016</p>
         <h1>Rénovation, isolation, peinture et <span class="text-accent">maçonnerie</span></h1>
@@ -1086,6 +1097,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
             <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.24h4.56V23H.24V8.24zM8.1 8.24h4.37v2.01h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 6.99V23h-4.56v-6.65c0-1.59-.03-3.63-2.21-3.63-2.21 0-2.55 1.73-2.55 3.51V23H8.1V8.24z"/></svg>
           </a>
         </div>
+      </div>
       </div>
 
       <div class="hero-video-wrap">
