@@ -1739,6 +1739,36 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Instagram embeds — loaded lazily, only once the section actually scrolls into
+     view. The official embed.js script was previously loaded on every page load
+     regardless of whether anyone scrolls that far, and being a third-party script
+     it delays the window "load" event on a slow connection (a real, measured
+     mobile PageSpeed regression) for a section most first-time visitors never
+     reach. Instagram's script scans the page for .instagram-media elements as
+     soon as it runs, so injecting it late still renders the embeds correctly. */
+  var instagramSection = document.getElementById('instagram');
+  if (instagramSection) {
+    var loadInstagramEmbed = function () {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = '//www.instagram.com/embed.js';
+      document.body.appendChild(script);
+    };
+    if ('IntersectionObserver' in window) {
+      var igObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            loadInstagramEmbed();
+            igObserver.disconnect();
+          }
+        });
+      }, { rootMargin: '400px' });
+      igObserver.observe(instagramSection);
+    } else {
+      loadInstagramEmbed();
+    }
+  }
+
   /* Track "Appeler" and "WhatsApp" clicks as leads too — previously only the quote
      form counted as a conversion in Google Ads, so a visitor calling or writing on
      WhatsApp directly (very likely now that both are one tap away) never showed up
@@ -1778,13 +1808,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
 
-  /* Background videos (gate + hero) — neither starts downloading until the page has
-     fully loaded (window "load", i.e. after the critical CSS/HTML/poster image are
-     already in). On a slow connection an autoplaying video competes for bandwidth
-     with everything else and pushes back the first paint by several seconds for
-     no benefit (the poster image already gives an instant visual) — this was
-     measured hurting the mobile PageSpeed score badly. The hero video additionally
-     waits for the visitor gate to be dismissed, since it's invisible until then. */
+  /* Background videos (gate + hero) — deferred a beat past the very first paint so
+     they don't compete for bandwidth with the critical CSS/HTML on a slow
+     connection (the poster image gives an instant visual in the meantime).
+     Deliberately NOT tied to window "load": that event also waits for third-party
+     scripts (e.g. the Instagram embed below) to finish, which can hang for a long
+     time on a slow connection and would drag the video's start — and therefore
+     the LCP metric — down with it. requestIdleCallback (with a capped timeout)
+     fires once the browser is done with the initial render work, independently
+     of any third-party network activity. */
   function startVideo(id) {
     var video = document.getElementById(id);
     if (!video) return;
@@ -1795,21 +1827,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     video.play().catch(function () {});
   }
+  function whenIdle(fn) {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fn, { timeout: 1200 });
+    } else {
+      setTimeout(fn, 200);
+    }
+  }
 
-  var pageFullyLoaded = false;
-  var heroReadyToStart = !gateWasOpen;
-
-  window.addEventListener('load', function () {
-    pageFullyLoaded = true;
-    startVideo('gate-video');
-    if (heroReadyToStart) startVideo('hero-video');
-  });
-
+  whenIdle(function () { startVideo('gate-video'); });
   if (gateWasOpen) {
-    document.addEventListener('mi:visitor-chosen', function () {
-      heroReadyToStart = true;
-      if (pageFullyLoaded) startVideo('hero-video');
-    }, { once: true });
+    document.addEventListener('mi:visitor-chosen', function () { whenIdle(function () { startVideo('hero-video'); }); }, { once: true });
+  } else {
+    whenIdle(function () { startVideo('hero-video'); });
   }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
@@ -2119,6 +2149,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-<script async src="//www.instagram.com/embed.js"></script>
 </body>
 </html>
