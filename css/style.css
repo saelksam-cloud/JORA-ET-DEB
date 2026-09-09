@@ -361,7 +361,14 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .realisations-teaser .gallery-card { width: 100%; }
 .realisations-more { text-align: center; margin-top: 32px; }
 @media (max-width: 860px) { .realisations-teaser { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .realisations-teaser { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  /* Mobile: horizontal scrolling row instead of photos stacked one under the other */
+  .realisations-teaser {
+    display: flex; grid-template-columns: none; overflow-x: auto; gap: 16px;
+    padding: 4px 4px 16px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .realisations-teaser .gallery-card { flex: 0 0 auto; width: min(260px, 74vw); }
+}
 .gallery-card {
   flex: 0 0 auto; width: min(400px, 78vw); scroll-snap-align: start;
   border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border); background: #fff;
