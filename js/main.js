@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Track "Appeler" and "WhatsApp" clicks as leads too — previously only the quote
+     form counted as a conversion in Google Ads, so a visitor calling or writing on
+     WhatsApp directly (very likely now that both are one tap away) never showed up
+     as a conversion at all. Delegated on the whole document so it covers every
+     tel:/wa.me link on the page (header, hero, floating buttons, footer...),
+     present now or added later, without wiring each one by hand. */
+  document.addEventListener('click', function (e) {
+    var telLink = e.target.closest('a[href^="tel:"]');
+    if (telLink) {
+      if (typeof window.trackLeadSubmitted === 'function') window.trackLeadSubmitted('phone');
+      return;
+    }
+    var waLink = e.target.closest('a[href*="wa.me"]');
+    if (waLink) {
+      if (typeof window.trackLeadSubmitted === 'function') window.trackLeadSubmitted('whatsapp');
+    }
+  });
+
   /* Visitor gate (particulier / professionnel) — shown once per browser session on
      load; both choices lead to the same site for now, this just remembers the pick
      (for a future dedicated B2B experience) and unlocks the page. */

@@ -29,11 +29,13 @@ function loadGoogleTags() {
   if (hasAds) window.gtag('config', GOOGLE_ADS_ID);
 }
 
-/* Événement déclenché après un envoi de formulaire réussi (voir main.js) :
-   envoie un événement GA4 "generate_lead" + une conversion Google Ads si configurée. */
-function trackLeadSubmitted(projectType) {
+/* Événement déclenché à chaque signal de contact (voir main.js) : envoi du formulaire,
+   mais aussi clic sur un lien "Appeler" ou "WhatsApp" — sinon ces contacts-là ne
+   remontent jamais comme conversion côté Google Ads. Envoie un événement GA4
+   "generate_lead" (avec la source du contact) + une conversion Google Ads si configurée. */
+function trackLeadSubmitted(source) {
   if (typeof window.gtag !== 'function') return;
-  window.gtag('event', 'generate_lead', { project_type: projectType || 'non précisé' });
+  window.gtag('event', 'generate_lead', { lead_source: source || 'form' });
 
   var hasAds = GOOGLE_ADS_ID && GOOGLE_ADS_ID.indexOf('XXXXXXXXX') === -1;
   var hasLabel = GOOGLE_ADS_CONVERSION_LABEL && GOOGLE_ADS_CONVERSION_LABEL.indexOf('XXXXXXXXXX') === -1;
