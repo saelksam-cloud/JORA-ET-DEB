@@ -322,15 +322,19 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .services-band h2 { color: var(--color-dark); }
 .services-band .section-lead { color: var(--color-text-light); }
 
+/* Native horizontal scroll (not a CSS transform animation) so visitors can also
+   drag/swipe it themselves — JS nudges scrollLeft forward continuously and wraps
+   it around, and pauses while the visitor is actively dragging/touching it. */
 .services-marquee {
-  overflow: hidden; margin: 44px -24px 0; padding: 4px 24px 12px;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  margin: 44px -24px 0; padding: 4px 24px 12px;
+  scrollbar-width: none; -ms-overflow-style: none; cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
-.services-track { display: flex; gap: 20px; width: max-content; animation: services-scroll 70s linear infinite; }
-.services-marquee:hover .services-track { animation-play-state: paused; }
-@keyframes services-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .services-track { animation: none; overflow-x: auto; } }
+.services-marquee::-webkit-scrollbar { display: none; }
+.services-marquee.is-dragging { cursor: grabbing; }
+.services-track { display: flex; gap: 20px; width: max-content; }
 
 .service-card {
   flex: 0 0 auto; width: 190px; display: flex; flex-direction: column;
@@ -434,19 +438,20 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .rating-banner a { color: var(--color-accent-light); font-weight: 700; }
 
 /* Auto-scrolling row instead of a stacked grid — the JS clones the card set once
-   so this can loop seamlessly (0 -> -50%); on mobile this replaces what used to
-   be a very long stack of 9 full-width cards. */
+   so this can loop seamlessly; on mobile this replaces what used to be a very
+   long stack of 9 full-width cards. Native horizontal scroll (not a CSS
+   transform animation) so visitors can also drag/swipe it themselves — see
+   setupAutoScroller() in main.js. */
 .testimonial-marquee {
-  overflow: hidden; margin: 0 -24px; padding: 0 24px;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  margin: 0 -24px; padding: 0 24px 8px;
+  scrollbar-width: none; -ms-overflow-style: none; cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
-.testimonial-track { display: flex; gap: 20px; width: max-content; animation: testimonial-scroll 48s linear infinite; }
-.testimonial-marquee:hover .testimonial-track { animation-play-state: paused; }
-@keyframes testimonial-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .testimonial-track { animation: none; overflow-x: auto; padding-bottom: 8px; }
-}
+.testimonial-marquee::-webkit-scrollbar { display: none; }
+.testimonial-marquee.is-dragging { cursor: grabbing; }
+.testimonial-track { display: flex; gap: 20px; width: max-content; }
 .testimonial-card {
   flex: 0 0 auto; width: min(340px, 82vw);
   margin: 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);

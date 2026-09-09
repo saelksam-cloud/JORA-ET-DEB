@@ -5,9 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* Auto-scrolling rows (testimonials, services) — duplicate the card set once so
-     the CSS animation (0 to -50%) loops seamlessly. The duplicate is hidden from
-     assistive tech and removed from tab order since it's a visual repeat, not new
-     content (relevant for the services row, whose cards are real links). */
+     the scroll position can wrap around seamlessly (real scrollLeft, not a CSS
+     transform, so visitors can also drag/swipe the row themselves — see
+     setupAutoScroller below). The duplicate is hidden from assistive tech and
+     removed from tab order since it's a visual repeat, not new content (relevant
+     for the services row, whose cards are real links). */
   function setupMarqueeLoop(trackId) {
     var track = document.getElementById(trackId);
     if (!track) return;
@@ -22,6 +24,109 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   setupMarqueeLoop('testimonial-track');
   setupMarqueeLoop('services-track');
+
+  /* Drives the auto-scroll (via real scrollLeft, at speedPxPerSec) and lets the
+     visitor take over at any time: touch/trackpad swipe works natively since
+     this is a real scroll container, and a plain mouse can grab-drag it too
+     (pointerdown/move on a "mouse" pointer only — touch already scrolls on its
+     own). Auto-scroll pauses on hover and while the visitor is interacting, and
+     resumes shortly after they let go. The scroll position wraps at the halfway
+     point of the (duplicated) track so the loop never visibly resets. */
+  function setupAutoScroller(marqueeId, speedPxPerSec) {
+    var marquee = document.getElementById(marqueeId);
+    if (!marquee) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var isHovering = false;
+    var isDragging = false;
+    var resumeTimer = null;
+    var lastClientX = 0;
+    var lastFrameTime = null;
+
+    function halfScrollWidth() {
+      return marquee.scrollWidth / 2;
+    }
+
+    function wrapIfNeeded() {
+      var half = halfScrollWidth();
+      if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
+      else if (marquee.scrollLeft < 0) marquee.scrollLeft += half;
+    }
+
+    function tick(timestamp) {
+      if (lastFrameTime === null) lastFrameTime = timestamp;
+      var deltaSeconds = (timestamp - lastFrameTime) / 1000;
+      lastFrameTime = timestamp;
+      if (!reduceMotion && !isHovering && !isDragging) {
+        marquee.scrollLeft += speedPxPerSec * deltaSeconds;
+        wrapIfNeeded();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    marquee.addEventListener('scroll', wrapIfNeeded, { passive: true });
+    marquee.addEventListener('mouseenter', function () { isHovering = true; });
+    marquee.addEventListener('mouseleave', function () { isHovering = false; });
+
+    // Click vs. drag: only commit to "dragging" (and only then block the browser's
+    // own default handling — mainly its native drag-out of links/images, which
+    // would otherwise steal the pointermove events this needs) once the pointer
+    // has actually moved past a small threshold. A plain click never crosses it,
+    // so service card links keep navigating normally. Move/up are tracked on the
+    // document (not via setPointerCapture, which retargets events in a way that
+    // ended up breaking normal link clicks) so the drag keeps tracking even if
+    // the pointer briefly leaves the row.
+    var isPointerDown = false;
+    var dragStartX = 0;
+    var DRAG_THRESHOLD = 6;
+    // The browser still fires a normal "click" on the underlying link/button
+    // after a real drag (preventDefault on pointermove doesn't stop that) —
+    // this flag tells a capture-phase click listener to swallow just that one
+    // click, without affecting a genuine plain click (no drag) afterwards.
+    var suppressNextClick = false;
+
+    marquee.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return; // touch/pen: let native scrolling handle it
+      isPointerDown = true;
+      dragStartX = e.clientX;
+      lastClientX = e.clientX;
+      clearTimeout(resumeTimer);
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!isPointerDown) return;
+      if (!isDragging) {
+        if (Math.abs(e.clientX - dragStartX) < DRAG_THRESHOLD) return;
+        isDragging = true;
+        suppressNextClick = true;
+        marquee.classList.add('is-dragging');
+      }
+      e.preventDefault();
+      marquee.scrollLeft -= e.clientX - lastClientX;
+      lastClientX = e.clientX;
+    });
+    document.addEventListener('pointerup', function () {
+      isPointerDown = false;
+      if (!isDragging) return;
+      isDragging = false;
+      marquee.classList.remove('is-dragging');
+    });
+    marquee.addEventListener('click', function (e) {
+      if (suppressNextClick) {
+        e.preventDefault();
+        suppressNextClick = false;
+      }
+    }, true);
+
+    // On touch, pause the auto-scroll for a moment after the visitor's own swipe
+    // so it doesn't fight their gesture; resume automatically after a short pause.
+    marquee.addEventListener('touchstart', function () { isDragging = true; clearTimeout(resumeTimer); }, { passive: true });
+    marquee.addEventListener('touchend', function () {
+      resumeTimer = setTimeout(function () { isDragging = false; }, 1200);
+    }, { passive: true });
+  }
+  setupAutoScroller('services-marquee', 40);
+  setupAutoScroller('testimonial-marquee', 65);
 
   /* Instagram embeds — loaded lazily, only once the section actually scrolls into
      view. The official embed.js script was previously loaded on every page load

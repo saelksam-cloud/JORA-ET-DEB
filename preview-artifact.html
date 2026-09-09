@@ -355,15 +355,19 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .services-band h2 { color: var(--color-dark); }
 .services-band .section-lead { color: var(--color-text-light); }
 
+/* Native horizontal scroll (not a CSS transform animation) so visitors can also
+   drag/swipe it themselves — JS nudges scrollLeft forward continuously and wraps
+   it around, and pauses while the visitor is actively dragging/touching it. */
 .services-marquee {
-  overflow: hidden; margin: 44px -24px 0; padding: 4px 24px 12px;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  margin: 44px -24px 0; padding: 4px 24px 12px;
+  scrollbar-width: none; -ms-overflow-style: none; cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
-.services-track { display: flex; gap: 20px; width: max-content; animation: services-scroll 70s linear infinite; }
-.services-marquee:hover .services-track { animation-play-state: paused; }
-@keyframes services-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .services-track { animation: none; overflow-x: auto; } }
+.services-marquee::-webkit-scrollbar { display: none; }
+.services-marquee.is-dragging { cursor: grabbing; }
+.services-track { display: flex; gap: 20px; width: max-content; }
 
 .service-card {
   flex: 0 0 auto; width: 190px; display: flex; flex-direction: column;
@@ -467,19 +471,20 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .rating-banner a { color: var(--color-accent-light); font-weight: 700; }
 
 /* Auto-scrolling row instead of a stacked grid — the JS clones the card set once
-   so this can loop seamlessly (0 -> -50%); on mobile this replaces what used to
-   be a very long stack of 9 full-width cards. */
+   so this can loop seamlessly; on mobile this replaces what used to be a very
+   long stack of 9 full-width cards. Native horizontal scroll (not a CSS
+   transform animation) so visitors can also drag/swipe it themselves — see
+   setupAutoScroller() in main.js. */
 .testimonial-marquee {
-  overflow: hidden; margin: 0 -24px; padding: 0 24px;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  margin: 0 -24px; padding: 0 24px 8px;
+  scrollbar-width: none; -ms-overflow-style: none; cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
-.testimonial-track { display: flex; gap: 20px; width: max-content; animation: testimonial-scroll 48s linear infinite; }
-.testimonial-marquee:hover .testimonial-track { animation-play-state: paused; }
-@keyframes testimonial-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .testimonial-track { animation: none; overflow-x: auto; padding-bottom: 8px; }
-}
+.testimonial-marquee::-webkit-scrollbar { display: none; }
+.testimonial-marquee.is-dragging { cursor: grabbing; }
+.testimonial-track { display: flex; gap: 20px; width: max-content; }
 .testimonial-card {
   flex: 0 0 auto; width: min(340px, 82vw);
   margin: 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -1298,7 +1303,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
         </div>
       </div>
 
-      <div class="testimonial-marquee">
+      <div class="testimonial-marquee" id="testimonial-marquee">
       <div class="testimonial-track" id="testimonial-track">
         <blockquote class="testimonial-card">
           <div class="testimonial-head">
@@ -1414,58 +1419,58 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <h2 class="section-title center">Nos services</h2>
       <p class="section-lead center">Nous sommes un interlocuteur capable de s'occuper de A à Z de vos projets de construction et de rénovation. Si certains domaines d'activité ne sont pas listés ici, nous pouvons nous appuyer sur notre réseau de confiance pour les autres corps de métier.</p>
 
-      <div class="services-marquee">
+      <div class="services-marquee" id="services-marquee">
         <div class="services-track" id="services-track">
-          <a class="service-card" href="services/isolation.html">
-            <span class="service-card-photo"><img src="images/realisations/amenagement-veranda-bureau-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/isolation.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/amenagement-veranda-bureau-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Isolation</span>
           </a>
-          <a class="service-card" href="services/platrerie.html">
-            <span class="service-card-photo"><img src="images/realisations/renovation-interieure-chantier-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/platrerie.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/renovation-interieure-chantier-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Plâtrerie</span>
           </a>
-          <a class="service-card" href="services/peinture.html">
-            <span class="service-card-photo"><img src="images/realisations/preparation-peinture-chantier-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/peinture.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/preparation-peinture-chantier-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Peinture</span>
           </a>
-          <a class="service-card" href="services/maconnerie.html">
-            <span class="service-card-photo"><img src="images/realisations/facade-provencale-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/maconnerie.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/facade-provencale-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Maçonnerie</span>
           </a>
-          <a class="service-card" href="services/terrassement.html">
-            <span class="service-card-photo"><img src="images/realisations/construction-maison-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/terrassement.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/construction-maison-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Terrassement</span>
           </a>
-          <a class="service-card" href="services/amenagement-exterieur.html">
-            <span class="service-card-photo"><img src="images/realisations/facade-provencale-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/amenagement-exterieur.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/facade-provencale-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Aménagement extérieur</span>
           </a>
-          <a class="service-card" href="services/amenagement-interieur.html">
-            <span class="service-card-photo"><img src="images/realisations/cuisine-blanche-plan-bois-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/amenagement-interieur.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/cuisine-blanche-plan-bois-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Aménagement intérieur</span>
           </a>
-          <a class="service-card" href="services/revetement-de-sol.html">
-            <span class="service-card-photo"><img src="images/realisations/chambre-carrelage-terracotta-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/revetement-de-sol.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/chambre-carrelage-terracotta-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Revêtement de sol</span>
           </a>
-          <a class="service-card" href="services/revetement-de-murs.html">
-            <span class="service-card-photo"><img src="images/realisations/fresque-murale-chantier-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/revetement-de-murs.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/fresque-murale-chantier-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Revêtement de murs</span>
           </a>
-          <a class="service-card" href="services/renovation-sols-anciens.html">
-            <span class="service-card-photo"><img src="images/realisations/sol-carrelage-ancien.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/renovation-sols-anciens.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/sol-carrelage-ancien.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Rénovation de sols anciens</span>
           </a>
-          <a class="service-card" href="services/pose-fenetre.html">
-            <span class="service-card-photo"><img src="images/realisations/chambre-renovee-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/pose-fenetre.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/chambre-renovee-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Pose de fenêtre</span>
           </a>
-          <a class="service-card" href="services/pose-menuiserie.html">
-            <span class="service-card-photo"><img src="images/realisations/bibliotheque-sur-mesure-chantier-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/pose-menuiserie.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/bibliotheque-sur-mesure-chantier-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Pose de menuiserie</span>
           </a>
-          <a class="service-card" href="services/renovation-de-maison.html">
-            <span class="service-card-photo"><img src="images/realisations/salon-renove-aix.jpg" alt="" loading="lazy"></span>
+          <a class="service-card" href="services/renovation-de-maison.html" draggable="false">
+            <span class="service-card-photo"><img src="images/realisations/salon-renove-aix.jpg" alt="" loading="lazy" draggable="false"></span>
             <span class="service-card-label">Rénovation de maison</span>
           </a>
         </div>
@@ -1793,9 +1798,11 @@ document.addEventListener('DOMContentLoaded', function () {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* Auto-scrolling rows (testimonials, services) — duplicate the card set once so
-     the CSS animation (0 to -50%) loops seamlessly. The duplicate is hidden from
-     assistive tech and removed from tab order since it's a visual repeat, not new
-     content (relevant for the services row, whose cards are real links). */
+     the scroll position can wrap around seamlessly (real scrollLeft, not a CSS
+     transform, so visitors can also drag/swipe the row themselves — see
+     setupAutoScroller below). The duplicate is hidden from assistive tech and
+     removed from tab order since it's a visual repeat, not new content (relevant
+     for the services row, whose cards are real links). */
   function setupMarqueeLoop(trackId) {
     var track = document.getElementById(trackId);
     if (!track) return;
@@ -1810,6 +1817,109 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   setupMarqueeLoop('testimonial-track');
   setupMarqueeLoop('services-track');
+
+  /* Drives the auto-scroll (via real scrollLeft, at speedPxPerSec) and lets the
+     visitor take over at any time: touch/trackpad swipe works natively since
+     this is a real scroll container, and a plain mouse can grab-drag it too
+     (pointerdown/move on a "mouse" pointer only — touch already scrolls on its
+     own). Auto-scroll pauses on hover and while the visitor is interacting, and
+     resumes shortly after they let go. The scroll position wraps at the halfway
+     point of the (duplicated) track so the loop never visibly resets. */
+  function setupAutoScroller(marqueeId, speedPxPerSec) {
+    var marquee = document.getElementById(marqueeId);
+    if (!marquee) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var isHovering = false;
+    var isDragging = false;
+    var resumeTimer = null;
+    var lastClientX = 0;
+    var lastFrameTime = null;
+
+    function halfScrollWidth() {
+      return marquee.scrollWidth / 2;
+    }
+
+    function wrapIfNeeded() {
+      var half = halfScrollWidth();
+      if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
+      else if (marquee.scrollLeft < 0) marquee.scrollLeft += half;
+    }
+
+    function tick(timestamp) {
+      if (lastFrameTime === null) lastFrameTime = timestamp;
+      var deltaSeconds = (timestamp - lastFrameTime) / 1000;
+      lastFrameTime = timestamp;
+      if (!reduceMotion && !isHovering && !isDragging) {
+        marquee.scrollLeft += speedPxPerSec * deltaSeconds;
+        wrapIfNeeded();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    marquee.addEventListener('scroll', wrapIfNeeded, { passive: true });
+    marquee.addEventListener('mouseenter', function () { isHovering = true; });
+    marquee.addEventListener('mouseleave', function () { isHovering = false; });
+
+    // Click vs. drag: only commit to "dragging" (and only then block the browser's
+    // own default handling — mainly its native drag-out of links/images, which
+    // would otherwise steal the pointermove events this needs) once the pointer
+    // has actually moved past a small threshold. A plain click never crosses it,
+    // so service card links keep navigating normally. Move/up are tracked on the
+    // document (not via setPointerCapture, which retargets events in a way that
+    // ended up breaking normal link clicks) so the drag keeps tracking even if
+    // the pointer briefly leaves the row.
+    var isPointerDown = false;
+    var dragStartX = 0;
+    var DRAG_THRESHOLD = 6;
+    // The browser still fires a normal "click" on the underlying link/button
+    // after a real drag (preventDefault on pointermove doesn't stop that) —
+    // this flag tells a capture-phase click listener to swallow just that one
+    // click, without affecting a genuine plain click (no drag) afterwards.
+    var suppressNextClick = false;
+
+    marquee.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return; // touch/pen: let native scrolling handle it
+      isPointerDown = true;
+      dragStartX = e.clientX;
+      lastClientX = e.clientX;
+      clearTimeout(resumeTimer);
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!isPointerDown) return;
+      if (!isDragging) {
+        if (Math.abs(e.clientX - dragStartX) < DRAG_THRESHOLD) return;
+        isDragging = true;
+        suppressNextClick = true;
+        marquee.classList.add('is-dragging');
+      }
+      e.preventDefault();
+      marquee.scrollLeft -= e.clientX - lastClientX;
+      lastClientX = e.clientX;
+    });
+    document.addEventListener('pointerup', function () {
+      isPointerDown = false;
+      if (!isDragging) return;
+      isDragging = false;
+      marquee.classList.remove('is-dragging');
+    });
+    marquee.addEventListener('click', function (e) {
+      if (suppressNextClick) {
+        e.preventDefault();
+        suppressNextClick = false;
+      }
+    }, true);
+
+    // On touch, pause the auto-scroll for a moment after the visitor's own swipe
+    // so it doesn't fight their gesture; resume automatically after a short pause.
+    marquee.addEventListener('touchstart', function () { isDragging = true; clearTimeout(resumeTimer); }, { passive: true });
+    marquee.addEventListener('touchend', function () {
+      resumeTimer = setTimeout(function () { isDragging = false; }, 1200);
+    }, { passive: true });
+  }
+  setupAutoScroller('services-marquee', 40);
+  setupAutoScroller('testimonial-marquee', 65);
 
   /* Instagram embeds — loaded lazily, only once the section actually scrolls into
      view. The official embed.js script was previously loaded on every page load
