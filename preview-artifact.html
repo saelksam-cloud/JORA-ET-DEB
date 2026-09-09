@@ -1808,15 +1808,26 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
 
-  /* Background videos (gate + hero) — deferred a beat past the very first paint so
-     they don't compete for bandwidth with the critical CSS/HTML on a slow
-     connection (the poster image gives an instant visual in the meantime).
-     Deliberately NOT tied to window "load": that event also waits for third-party
-     scripts (e.g. the Instagram embed below) to finish, which can hang for a long
-     time on a slow connection and would drag the video's start — and therefore
-     the LCP metric — down with it. requestIdleCallback (with a capped timeout)
+  /* Background videos (gate + hero) — deferred a beat past the very first paint on
+     slow connections, so they don't compete for bandwidth with the critical
+     CSS/HTML there (the poster image gives an instant visual in the meantime).
+     On a decent connection this delay serves no purpose — the video would have
+     loaded near-instantly anyway — and only pushes back the LCP timing for
+     nothing, so it's skipped there and the video starts right away, like before.
+     Deliberately NOT tied to window "load" for the deferred path: that event also
+     waits for third-party scripts (e.g. the Instagram embed below) to finish,
+     which can hang for a long time on a slow connection and would drag the
+     video's start down with it. requestIdleCallback (with a capped timeout)
      fires once the browser is done with the initial render work, independently
      of any third-party network activity. */
+  function isSlowConnection() {
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (!conn) return true; // unknown: play it safe and defer
+    if (conn.saveData) return true;
+    if (conn.effectiveType && conn.effectiveType.indexOf('2g') !== -1) return true;
+    if (conn.effectiveType === '3g') return true;
+    return false;
+  }
   function startVideo(id) {
     var video = document.getElementById(id);
     if (!video) return;
@@ -1834,12 +1845,20 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(fn, 200);
     }
   }
+  var deferVideos = isSlowConnection();
+  function playVideo(id) {
+    if (deferVideos) {
+      whenIdle(function () { startVideo(id); });
+    } else {
+      startVideo(id);
+    }
+  }
 
-  whenIdle(function () { startVideo('gate-video'); });
+  playVideo('gate-video');
   if (gateWasOpen) {
-    document.addEventListener('mi:visitor-chosen', function () { whenIdle(function () { startVideo('hero-video'); }); }, { once: true });
+    document.addEventListener('mi:visitor-chosen', function () { playVideo('hero-video'); }, { once: true });
   } else {
-    whenIdle(function () { startVideo('hero-video'); });
+    playVideo('hero-video');
   }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
