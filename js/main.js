@@ -43,24 +43,38 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
 
-  /* Hero video — only starts loading once the gate is dismissed. While the gate is
-     up, the hero video sits hidden behind it but would still autoplay/download in
-     the background if left unguarded, doubling the video bandwidth used on first
-     load for nothing (only the gate's video is actually visible at that point). */
-  function startHeroVideo() {
-    var heroVideo = document.getElementById('hero-video');
-    if (!heroVideo) return;
-    var source = heroVideo.querySelector('source[data-src]');
+  /* Background videos (gate + hero) — neither starts downloading until the page has
+     fully loaded (window "load", i.e. after the critical CSS/HTML/poster image are
+     already in). On a slow connection an autoplaying video competes for bandwidth
+     with everything else and pushes back the first paint by several seconds for
+     no benefit (the poster image already gives an instant visual) — this was
+     measured hurting the mobile PageSpeed score badly. The hero video additionally
+     waits for the visitor gate to be dismissed, since it's invisible until then. */
+  function startVideo(id) {
+    var video = document.getElementById(id);
+    if (!video) return;
+    var source = video.querySelector('source[data-src]');
     if (source) {
       source.src = source.getAttribute('data-src');
-      heroVideo.load();
+      video.load();
     }
-    heroVideo.play().catch(function () {});
+    video.play().catch(function () {});
   }
+
+  var pageFullyLoaded = false;
+  var heroReadyToStart = !gateWasOpen;
+
+  window.addEventListener('load', function () {
+    pageFullyLoaded = true;
+    startVideo('gate-video');
+    if (heroReadyToStart) startVideo('hero-video');
+  });
+
   if (gateWasOpen) {
-    document.addEventListener('mi:visitor-chosen', startHeroVideo, { once: true });
-  } else {
-    startHeroVideo();
+    document.addEventListener('mi:visitor-chosen', function () {
+      heroReadyToStart = true;
+      if (pageFullyLoaded) startVideo('hero-video');
+    }, { once: true });
   }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
