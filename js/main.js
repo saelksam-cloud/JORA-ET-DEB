@@ -43,6 +43,26 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
 
+  /* Hero video — only starts loading once the gate is dismissed. While the gate is
+     up, the hero video sits hidden behind it but would still autoplay/download in
+     the background if left unguarded, doubling the video bandwidth used on first
+     load for nothing (only the gate's video is actually visible at that point). */
+  function startHeroVideo() {
+    var heroVideo = document.getElementById('hero-video');
+    if (!heroVideo) return;
+    var source = heroVideo.querySelector('source[data-src]');
+    if (source) {
+      source.src = source.getAttribute('data-src');
+      heroVideo.load();
+    }
+    heroVideo.play().catch(function () {});
+  }
+  if (gateWasOpen) {
+    document.addEventListener('mi:visitor-chosen', startHeroVideo, { once: true });
+  } else {
+    startHeroVideo();
+  }
+
   /* Floating quote CTA — appears once the hero is scrolled past */
   var floatingCta = document.getElementById('floating-quote-cta');
   var heroSection = document.getElementById('hero');

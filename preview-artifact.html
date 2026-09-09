@@ -1102,8 +1102,8 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
       <div class="hero-video-wrap">
         <div class="hero-video-card">
-          <video autoplay muted loop playsinline poster="images/realisations/preparation-peinture-chantier-aix.jpg">
-            <source src="videos/chantier-teaser.mp4" type="video/mp4">
+          <video id="hero-video" muted loop playsinline preload="none" poster="images/realisations/preparation-peinture-chantier-aix.jpg">
+            <source data-src="videos/chantier-teaser.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -1776,6 +1776,26 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
+  }
+
+  /* Hero video — only starts loading once the gate is dismissed. While the gate is
+     up, the hero video sits hidden behind it but would still autoplay/download in
+     the background if left unguarded, doubling the video bandwidth used on first
+     load for nothing (only the gate's video is actually visible at that point). */
+  function startHeroVideo() {
+    var heroVideo = document.getElementById('hero-video');
+    if (!heroVideo) return;
+    var source = heroVideo.querySelector('source[data-src]');
+    if (source) {
+      source.src = source.getAttribute('data-src');
+      heroVideo.load();
+    }
+    heroVideo.play().catch(function () {});
+  }
+  if (gateWasOpen) {
+    document.addEventListener('mi:visitor-chosen', startHeroVideo, { once: true });
+  } else {
+    startHeroVideo();
   }
 
   /* Floating quote CTA — appears once the hero is scrolled past */
