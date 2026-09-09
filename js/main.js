@@ -4,18 +4,24 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* Testimonials auto-scroll — duplicate the card set once so the CSS animation
-     (0 to -50%) loops seamlessly. The duplicate is hidden from assistive tech
-     since it's a visual repeat of the same reviews, not new content. */
-  var testimonialTrack = document.getElementById('testimonial-track');
-  if (testimonialTrack) {
-    var originalCards = Array.prototype.slice.call(testimonialTrack.children);
-    originalCards.forEach(function (card) {
-      var clone = card.cloneNode(true);
+  /* Auto-scrolling rows (testimonials, services) — duplicate the card set once so
+     the CSS animation (0 to -50%) loops seamlessly. The duplicate is hidden from
+     assistive tech and removed from tab order since it's a visual repeat, not new
+     content (relevant for the services row, whose cards are real links). */
+  function setupMarqueeLoop(trackId) {
+    var track = document.getElementById(trackId);
+    if (!track) return;
+    var originals = Array.prototype.slice.call(track.children);
+    originals.forEach(function (item) {
+      var clone = item.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
-      testimonialTrack.appendChild(clone);
+      if (clone.matches('a, button, [tabindex]')) clone.setAttribute('tabindex', '-1');
+      clone.querySelectorAll('a, button, [tabindex]').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+      track.appendChild(clone);
     });
   }
+  setupMarqueeLoop('testimonial-track');
+  setupMarqueeLoop('services-track');
 
   /* Instagram embeds — loaded lazily, only once the section actually scrolls into
      view. The official embed.js script was previously loaded on every page load
