@@ -420,7 +420,22 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 .rating-banner p { color: #C9C9CC; font-size: 0.9rem; margin-top: 4px; }
 .rating-banner a { color: var(--color-accent-light); font-weight: 700; }
 
+/* Auto-scrolling row instead of a stacked grid — the JS clones the card set once
+   so this can loop seamlessly (0 -> -50%); on mobile this replaces what used to
+   be a very long stack of 9 full-width cards. */
+.testimonial-marquee {
+  overflow: hidden; margin: 0 -24px; padding: 0 24px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.testimonial-track { display: flex; gap: 20px; width: max-content; animation: testimonial-scroll 48s linear infinite; }
+.testimonial-marquee:hover .testimonial-track { animation-play-state: paused; }
+@keyframes testimonial-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-track { animation: none; overflow-x: auto; padding-bottom: 8px; }
+}
 .testimonial-card {
+  flex: 0 0 auto; width: min(340px, 82vw);
   margin: 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-md); padding: 26px; color: #fff;
 }

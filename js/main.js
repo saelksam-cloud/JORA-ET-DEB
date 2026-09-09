@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* Testimonials auto-scroll — duplicate the card set once so the CSS animation
+     (0 to -50%) loops seamlessly. The duplicate is hidden from assistive tech
+     since it's a visual repeat of the same reviews, not new content. */
+  var testimonialTrack = document.getElementById('testimonial-track');
+  if (testimonialTrack) {
+    var originalCards = Array.prototype.slice.call(testimonialTrack.children);
+    originalCards.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      testimonialTrack.appendChild(clone);
+    });
+  }
+
   /* Instagram embeds — loaded lazily, only once the section actually scrolls into
      view. The official embed.js script was previously loaded on every page load
      regardless of whether anyone scrolls that far, and being a third-party script
