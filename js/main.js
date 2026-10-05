@@ -180,19 +180,22 @@ document.addEventListener('DOMContentLoaded', function () {
      load. The choice now actually changes the site's wording (hero, "pourquoi nous
      choisir", FAQ, formulaires de devis) toward a B2B register for "professionnel"
      — see applyVisitorType() below. */
+  function setVisitorType(type) {
+    try {
+      sessionStorage.setItem('mi-visitor-type', type);
+      localStorage.setItem('mi-visitor-type', type);
+    } catch (err) {}
+    document.dispatchEvent(new Event('mi:visitor-chosen'));
+  }
   var visitorGate = document.getElementById('visitor-gate');
   var gateWasOpen = !!(visitorGate && !visitorGate.hidden);
   if (visitorGate) {
     var gateParticulier = document.getElementById('gate-particulier');
     var gatePro = document.getElementById('gate-professionnel');
     var chooseVisitor = function (type) {
-      try {
-        sessionStorage.setItem('mi-visitor-type', type);
-        localStorage.setItem('mi-visitor-type', type);
-      } catch (err) {}
+      setVisitorType(type);
       visitorGate.hidden = true;
       document.documentElement.style.overflow = '';
-      document.dispatchEvent(new Event('mi:visitor-chosen'));
     };
     if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
@@ -217,6 +220,30 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePopupCopyForAudience(isPro);
   }
   document.addEventListener('mi:visitor-chosen', applyVisitorType);
+
+  /* Small always-visible pill letting a visitor correct a wrong particulier/pro
+     pick from the gate, from any page, without reloading or clearing cookies —
+     switches instantly on click (trivially reversible, so no confirmation
+     needed). Injected in JS (like the pop-up) so it's on every page; hidden
+     while the gate itself is still up via the CSS sibling rule in
+     css/style.css, since on index.html it's appended after #visitor-gate. */
+  function ensureAudienceSwitch() {
+    var existing = document.getElementById('audience-switch');
+    if (existing) return existing;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'audience-switch';
+    btn.className = 'audience-switch';
+    btn.innerHTML =
+      '<span class="audience-particulier">Vous êtes un professionnel ?</span>' +
+      '<span class="audience-pro">Vous êtes un particulier ?</span>';
+    document.body.appendChild(btn);
+    return btn;
+  }
+  var audienceSwitch = ensureAudienceSwitch();
+  audienceSwitch.addEventListener('click', function () {
+    setVisitorType(isProVisitor() ? 'particulier' : 'professionnel');
+  });
 
   /* Background videos (gate + hero) — deferred a beat past the very first paint on
      slow connections, so they don't compete for bandwidth with the critical

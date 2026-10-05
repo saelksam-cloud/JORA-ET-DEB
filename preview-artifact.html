@@ -230,7 +230,8 @@ html.is-pro .audience-pro-block { display: block !important; }
    otherwise float on top of (and collide with) the Particulier/Professionnel cards. */
 #visitor-gate:not([hidden]) ~ .mobile-call-fab,
 #visitor-gate:not([hidden]) ~ .whatsapp-fab,
-#visitor-gate:not([hidden]) ~ .floating-quote-cta { display: none; }
+#visitor-gate:not([hidden]) ~ .floating-quote-cta,
+#visitor-gate:not([hidden]) ~ .audience-switch { display: none; }
 .hero-content h1 { font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 800; margin-bottom: 18px; }
 .text-accent { color: var(--color-accent); }
 .section-dark .text-accent, .services-band .text-accent { color: var(--color-accent-light); }
@@ -787,6 +788,24 @@ html.is-pro .audience-pro-block { display: block !important; }
 .whatsapp-fab:hover { transform: scale(1.06); }
 @media (min-width: 861px) {
   .whatsapp-fab { bottom: 96px; right: 24px; width: 52px; height: 52px; }
+}
+
+/* ---------- Audience switch — lets a visitor undo their particulier/pro choice
+   from the gate at any time, from any page, without clearing cookies or
+   reloading. Bottom-left, away from the call/WhatsApp/devis cluster on the
+   right. Shows the opposite audience as an invite ("Vous êtes un
+   professionnel ?" while in particulier mode, and vice-versa) via the same
+   .audience-particulier/.audience-pro rules used everywhere else. */
+.audience-switch {
+  display: flex; position: fixed; left: 16px; bottom: 16px; z-index: 400;
+  align-items: center; gap: 6px; background: #fff; color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 999px;
+  padding: 9px 16px; font-size: 0.78rem; font-weight: 600; line-height: 1.3;
+  box-shadow: var(--shadow-md); cursor: pointer; max-width: calc(100vw - 32px);
+}
+.audience-switch:hover { box-shadow: var(--shadow-lg); border-color: var(--color-accent); color: var(--color-accent); }
+@media (max-width: 560px) {
+  .audience-switch { font-size: 0.72rem; padding: 8px 12px; bottom: 12px; left: 12px; }
 }
 
 /* ---------- Capture pop-up ---------- */
@@ -2029,19 +2048,22 @@ document.addEventListener('DOMContentLoaded', function () {
      load. The choice now actually changes the site's wording (hero, "pourquoi nous
      choisir", FAQ, formulaires de devis) toward a B2B register for "professionnel"
      — see applyVisitorType() below. */
+  function setVisitorType(type) {
+    try {
+      sessionStorage.setItem('mi-visitor-type', type);
+      localStorage.setItem('mi-visitor-type', type);
+    } catch (err) {}
+    document.dispatchEvent(new Event('mi:visitor-chosen'));
+  }
   var visitorGate = document.getElementById('visitor-gate');
   var gateWasOpen = !!(visitorGate && !visitorGate.hidden);
   if (visitorGate) {
     var gateParticulier = document.getElementById('gate-particulier');
     var gatePro = document.getElementById('gate-professionnel');
     var chooseVisitor = function (type) {
-      try {
-        sessionStorage.setItem('mi-visitor-type', type);
-        localStorage.setItem('mi-visitor-type', type);
-      } catch (err) {}
+      setVisitorType(type);
       visitorGate.hidden = true;
       document.documentElement.style.overflow = '';
-      document.dispatchEvent(new Event('mi:visitor-chosen'));
     };
     if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
@@ -2066,6 +2088,30 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePopupCopyForAudience(isPro);
   }
   document.addEventListener('mi:visitor-chosen', applyVisitorType);
+
+  /* Small always-visible pill letting a visitor correct a wrong particulier/pro
+     pick from the gate, from any page, without reloading or clearing cookies —
+     switches instantly on click (trivially reversible, so no confirmation
+     needed). Injected in JS (like the pop-up) so it's on every page; hidden
+     while the gate itself is still up via the CSS sibling rule in
+     css/style.css, since on index.html it's appended after #visitor-gate. */
+  function ensureAudienceSwitch() {
+    var existing = document.getElementById('audience-switch');
+    if (existing) return existing;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'audience-switch';
+    btn.className = 'audience-switch';
+    btn.innerHTML =
+      '<span class="audience-particulier">Vous êtes un professionnel ?</span>' +
+      '<span class="audience-pro">Vous êtes un particulier ?</span>';
+    document.body.appendChild(btn);
+    return btn;
+  }
+  var audienceSwitch = ensureAudienceSwitch();
+  audienceSwitch.addEventListener('click', function () {
+    setVisitorType(isProVisitor() ? 'particulier' : 'professionnel');
+  });
 
   /* Background videos (gate + hero) — deferred a beat past the very first paint on
      slow connections, so they don't compete for bandwidth with the critical
