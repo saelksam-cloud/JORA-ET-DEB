@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moderne Isolation — Rénovation & isolation pour particuliers</title>
+<meta name="description" content="Moderne Isolation, entreprise de rénovation intérieure et extérieure pour particuliers à Aix-en-Provence et dans les Bouches-du-Rhône.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.moderneisolation.fr/particulier">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<!-- Filet de sécurité si JS est désactivé — le script ci-dessous redirige
+     instantanément dans l'immense majorité des cas et passe en plus avant
+     ce délai de 0s (il s'exécute pendant le parsing du head, avant que ce
+     minuteur n'ait eu le temps de s'engager), donc ce chemin n'est presque
+     jamais emprunté en pratique. -->
+<meta http-equiv="refresh" content="0; url=/index.html">
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; color: #6b6b70; background: #FFF7F1; }
+</style>
+</head>
+<body>
+<script>
+  /* Point d'entrée dédié "particuliers" — pendant de pro.html (voir ce fichier
+     pour le détail du fonctionnement). Mémorise le choix avant de rediriger
+     vers l'accueil, exactement comme le ferait un clic sur "Particulier" dans
+     le pop-up d'accueil (voir js/main.js). La chaîne de requête (gclid,
+     utm_*...) est transmise telle quelle pour ne pas casser le suivi de
+     conversion Google Ads. */
+  (function () {
+    try {
+      sessionStorage.setItem('mi-visitor-type', 'particulier');
+      localStorage.setItem('mi-visitor-type', 'particulier');
+    } catch (err) {}
+    window.location.replace('/index.html' + window.location.search);
+  })();
+</script>
+<noscript>
+  <p>Redirection vers l'accueil… <a href="/index.html">cliquez ici si rien ne se passe</a>.</p>
+</noscript>
+<p>Redirection…</p>
+</body>
+</html>
