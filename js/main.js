@@ -177,8 +177,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* Visitor gate (particulier / professionnel) — shown once per browser session on
-     load; both choices lead to the same site for now, this just remembers the pick
-     (for a future dedicated B2B experience) and unlocks the page. */
+     load. The choice now actually changes the site's wording (hero, "pourquoi nous
+     choisir", FAQ, formulaires de devis) toward a B2B register for "professionnel"
+     — see applyVisitorType() below. */
   var visitorGate = document.getElementById('visitor-gate');
   var gateWasOpen = !!(visitorGate && !visitorGate.hidden);
   if (visitorGate) {
@@ -196,6 +197,26 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
+
+  /* Applies the chosen audience everywhere: toggles the "is-pro" class on <html>
+     (the static HTML already carries both wordings side by side for the hero,
+     reasons, FAQ and bottom contact form — see css/style.css's
+     .audience-particulier/.audience-pro rules) and updates the JS-built devis
+     pop-up's copy directly, since that one doesn't exist in the static HTML.
+     Re-applied on the gate's "mi:visitor-chosen" event, and once eagerly below so
+     a visitor who already chose earlier this session (gate won't show again) gets
+     the right pop-up copy too — the <html class="is-pro"> part for the static
+     content is already set, flash-free, by the blocking script at the top of
+     index.html's <body>. */
+  function isProVisitor() {
+    try { return sessionStorage.getItem('mi-visitor-type') === 'professionnel'; } catch (err) { return false; }
+  }
+  function applyVisitorType() {
+    var isPro = isProVisitor();
+    document.documentElement.classList.toggle('is-pro', isPro);
+    updatePopupCopyForAudience(isPro);
+  }
+  document.addEventListener('mi:visitor-chosen', applyVisitorType);
 
   /* Background videos (gate + hero) — deferred a beat past the very first paint on
      slow connections, so they don't compete for bandwidth with the critical
@@ -284,11 +305,13 @@ document.addEventListener('DOMContentLoaded', function () {
     updateGalleryArrows();
   }
 
-  /* Hero stat rotator */
-  var rotator = document.getElementById('hero-stat-rotator');
-  if (rotator) {
+  /* Hero stat rotator — there are now two (particulier / professionnel), only one
+     of which is ever visible at a time (see .audience-particulier-block /
+     .audience-pro-block in css/style.css), so each is animated independently. */
+  var rotators = document.querySelectorAll('.hero-stat-rotator');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  rotators.forEach(function (rotator) {
     var rotatorItems = rotator.querySelectorAll('.hero-stat-item');
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (rotatorItems.length > 1 && !reduceMotion) {
       var rotatorIndex = 0;
       setInterval(function () {
@@ -297,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rotatorItems[rotatorIndex].classList.add('is-active');
       }, 2800);
     }
-  }
+  });
 
   /* Mobile nav toggle */
   var navToggle = document.getElementById('nav-toggle');
@@ -444,6 +467,24 @@ document.addEventListener('DOMContentLoaded', function () {
   var popupOverlay = ensurePopup();
   var popupClose = document.getElementById('popup-close');
   var POPUP_SEEN_KEY = 'mi-popup-seen';
+
+  /* Swaps the pop-up's wording for the "professionnel" audience (see
+     applyVisitorType() above) — the pop-up is built in JS, so unlike the static
+     hero/reasons/FAQ/bottom-form it can't carry both versions in the markup for
+     CSS to toggle; its text is set directly here instead. */
+  function updatePopupCopyForAudience(isPro) {
+    var eyebrow = popupOverlay.querySelector('.popup-card > .eyebrow');
+    var title = document.getElementById('popup-title');
+    var lead = popupOverlay.querySelector('.popup-lead');
+    var submitLabel = popupOverlay.querySelector('#popup-form button[type="submit"]');
+    if (eyebrow) eyebrow.textContent = isPro ? 'Espace professionnels' : 'Devis gratuit';
+    if (title) title.textContent = isPro ? 'Parlons de votre prochain chantier' : 'Combien coûte votre projet ?';
+    if (lead) lead.textContent = isPro
+      ? 'Architectes, maîtres d\'œuvre, promoteurs : laissez-nous vos coordonnées, nous étudions votre cahier des charges sous 48h.'
+      : 'Laissez-nous vos coordonnées, on vous répond sous 48h.';
+    if (submitLabel) submitLabel.textContent = isPro ? 'Transmettre mon projet →' : 'Obtenir mon devis gratuit →';
+  }
+  applyVisitorType();
 
   function openPopup() {
     popupOverlay.hidden = false;

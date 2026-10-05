@@ -131,6 +131,18 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--color-dark); border-radius: 2px; transition: 0.2s; }
 
+/* ---------- Contenu adapté au public (particulier / professionnel) ----------
+   Les deux variantes sont toutes les deux dans le HTML ; seul l'affichage CSS
+   bascule, piloté par la classe "is-pro" posée sur <html> (voir js/main.js,
+   déclenchée par le choix fait dans le pop-up d'accueil et mémorisée le temps
+   de la session). Par défaut (visiteur "particulier" ou avant tout choix), la
+   version pro reste masquée. */
+.audience-pro, .audience-pro-block { display: none; }
+html.is-pro .audience-particulier { display: none; }
+html.is-pro .audience-particulier-block { display: none; }
+html.is-pro .audience-pro { display: inline; }
+html.is-pro .audience-pro-block { display: block; }
+
 /* ---------- Hero ---------- */
 .hero { padding: 72px 0 60px; background: linear-gradient(180deg, #FFF7F1 0%, #FFFFFF 60%); overflow: hidden; }
 /* Not wrapped in .container: the left inset (padding on the grid itself, not on

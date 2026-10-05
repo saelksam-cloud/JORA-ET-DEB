@@ -164,6 +164,18 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--color-dark); border-radius: 2px; transition: 0.2s; }
 
+/* ---------- Contenu adapté au public (particulier / professionnel) ----------
+   Les deux variantes sont toutes les deux dans le HTML ; seul l'affichage CSS
+   bascule, piloté par la classe "is-pro" posée sur <html> (voir js/main.js,
+   déclenchée par le choix fait dans le pop-up d'accueil et mémorisée le temps
+   de la session). Par défaut (visiteur "particulier" ou avant tout choix), la
+   version pro reste masquée. */
+.audience-pro, .audience-pro-block { display: none; }
+html.is-pro .audience-particulier { display: none; }
+html.is-pro .audience-particulier-block { display: none; }
+html.is-pro .audience-pro { display: inline; }
+html.is-pro .audience-pro-block { display: block; }
+
 /* ---------- Hero ---------- */
 .hero { padding: 72px 0 60px; background: linear-gradient(180deg, #FFF7F1 0%, #FFFFFF 60%); overflow: hidden; }
 /* Not wrapped in .container: the left inset (padding on the grid itself, not on
@@ -1035,12 +1047,19 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 <script>
   (function () {
     try {
-      if (!sessionStorage.getItem('mi-visitor-type')) {
+      var visitorType = sessionStorage.getItem('mi-visitor-type');
+      if (!visitorType) {
         var gate = document.getElementById('visitor-gate');
         if (gate) {
           gate.hidden = false;
           document.documentElement.style.overflow = 'hidden';
         }
+      } else if (visitorType === 'professionnel') {
+        /* Already chosen earlier this session (gate won't show again) — apply the
+           pro wording immediately, synchronously, before first paint, so a visitor
+           browsing several pages doesn't see the "particulier" text flash before
+           js/main.js (deferred to DOMContentLoaded) gets a chance to switch it. */
+        document.documentElement.classList.add('is-pro');
       }
     } catch (err) {}
   })();
@@ -1089,10 +1108,13 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
     <div class="hero-inner">
       <div class="hero-content-col">
       <div class="hero-content">
-        <p class="eyebrow">Bouches-du-Rhône · Rénovation sur mesure depuis 2016</p>
-        <h1>Rénovation, isolation, peinture et <span class="text-accent">maçonnerie</span></h1>
-        <p class="hero-lead">Spécialisée dans la modernisation de maisons et d'appartements, notre entreprise intervient à Aix-en-Provence et dans toutes les <strong>Bouches-du-Rhône</strong>.</p>
-        <p class="hero-stat">
+        <p class="eyebrow audience-particulier">Bouches-du-Rhône · Rénovation sur mesure depuis 2016</p>
+        <p class="eyebrow audience-pro">Bouches-du-Rhône · Entreprise tous corps d'état depuis 2016</p>
+        <h1 class="audience-particulier-block">Rénovation, isolation, peinture et <span class="text-accent">maçonnerie</span></h1>
+        <h1 class="audience-pro-block">Un <span class="text-accent">partenaire tous corps d'état</span> pour vos chantiers</h1>
+        <p class="hero-lead audience-particulier-block">Spécialisée dans la modernisation de maisons et d'appartements, notre entreprise intervient à Aix-en-Provence et dans toutes les <strong>Bouches-du-Rhône</strong>.</p>
+        <p class="hero-lead audience-pro-block">Moderne Isolation intervient en sous-traitance ou co-traitance auprès d'architectes, maîtres d'œuvre et promoteurs sur l'isolation, la peinture, la plâtrerie et la maçonnerie, partout en Bouches-du-Rhône.</p>
+        <p class="hero-stat audience-particulier-block">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBC02D" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
           <span class="hero-stat-rotator" id="hero-stat-rotator" aria-live="polite">
             <span class="hero-stat-item is-active">+100 clients accompagnés</span>
@@ -1104,12 +1126,27 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
             <span class="hero-stat-item">5/5 sur 24 avis Google</span>
           </span>
         </p>
+        <p class="hero-stat audience-pro-block">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBC02D" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z"/></svg>
+          <span class="hero-stat-rotator" id="hero-stat-rotator-pro" aria-live="polite">
+            <span class="hero-stat-item is-active">Entreprise tous corps d'état</span>
+            <span class="hero-stat-item">Garantie décennale &amp; assurance RC Pro</span>
+            <span class="hero-stat-item">Sous-traitance &amp; co-traitance</span>
+            <span class="hero-stat-item">Interlocuteur chantier unique</span>
+            <span class="hero-stat-item">Respect des délais d'exécution</span>
+            <span class="hero-stat-item">Réponse sous 48h à votre cahier des charges</span>
+            <span class="hero-stat-item">5/5 sur 24 avis Google</span>
+          </span>
+        </p>
         <div class="hero-cta">
           <a href="tel:+33635356345" class="btn btn-primary btn-lg">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             06 35 35 63 45
           </a>
-          <a href="#devis" class="btn btn-outline btn-lg">Contactez-nous</a>
+          <a href="#devis" class="btn btn-outline btn-lg">
+            <span class="audience-particulier">Contactez-nous</span>
+            <span class="audience-pro">Discuter de votre chantier</span>
+          </a>
         </div>
 
         <div class="hero-trust-row">
@@ -1500,25 +1537,45 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
       <p class="section-lead center">L'équipe de <strong>Moderne isolation</strong> vous fait bénéficier de plusieurs atouts :</p>
 
       <div class="reasons-grid">
-        <div class="reason-card">
+        <div class="reason-card audience-particulier-block">
           <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6"/><path d="M17.5 5.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg></div>
           <h3>Solide savoir-faire</h3>
           <p>Une expertise acquise depuis 2016 dans tous les corps de métier.</p>
         </div>
-        <div class="reason-card">
+        <div class="reason-card audience-pro-block">
+          <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6"/><path d="M17.5 5.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg></div>
+          <h3>Entreprise tous corps d'état</h3>
+          <p>Isolation, peinture, plâtrerie, maçonnerie : un seul partenaire pour l'ensemble de vos lots techniques, depuis 2016.</p>
+        </div>
+        <div class="reason-card audience-particulier-block">
           <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L6 21l6-3 6 3-2.5-8.5"/></svg></div>
           <h3>Équipe qualifiée</h3>
           <p>Des artisans passionnés et compétents pour un résultat impeccable.</p>
         </div>
-        <div class="reason-card">
+        <div class="reason-card audience-pro-block">
+          <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L6 21l6-3 6 3-2.5-8.5"/></svg></div>
+          <h3>Sous-traitance &amp; co-traitance</h3>
+          <p>Nous nous intégrons à votre planning de chantier et à votre organisation, en sous-traitance comme en co-traitance.</p>
+        </div>
+        <div class="reason-card audience-particulier-block">
           <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21l3.5-1 11-11-2.5-2.5-11 11z"/><path d="M14.5 4.5L18 3l3 3-1.5 3.5"/></svg></div>
           <h3>Solutions personnalisées</h3>
           <p>Des prestations entièrement sur mesure, adaptées à vos envies et à votre budget.</p>
         </div>
-        <div class="reason-card">
+        <div class="reason-card audience-pro-block">
+          <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21l3.5-1 11-11-2.5-2.5-11 11z"/><path d="M14.5 4.5L18 3l3 3-1.5 3.5"/></svg></div>
+          <h3>Réponse à cahier des charges</h3>
+          <p>Étude de vos plans et de votre cahier des charges pour un chiffrage précis et engageant, sous 48h.</p>
+        </div>
+        <div class="reason-card audience-particulier-block">
           <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6"/><path d="M15.5 9.5l2 2 4-4"/></svg></div>
           <h3>Accompagnement de A à Z</h3>
           <p>Un interlocuteur unique pour un suivi complet de votre projet.</p>
+        </div>
+        <div class="reason-card audience-pro-block">
+          <div class="reason-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6"/><path d="M15.5 9.5l2 2 4-4"/></svg></div>
+          <h3>Un interlocuteur chantier unique</h3>
+          <p>Coordination des corps de métier, respect des délais et reporting régulier à la maîtrise d'œuvre.</p>
         </div>
       </div>
     </div>
@@ -1583,6 +1640,18 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false">Proposez-vous un accompagnement clé en main ?</button>
           <div class="accordion-panel"><p>Oui, de l'étude technique au dépôt des dossiers d'aides, en passant par la réalisation des travaux et le contrôle qualité final.</p></div>
+        </div>
+        <div class="accordion-item audience-pro-block">
+          <button class="accordion-trigger" aria-expanded="false">Travaillez-vous en sous-traitance pour des architectes ou maîtres d'œuvre ?</button>
+          <div class="accordion-panel"><p>Oui, nous intervenons régulièrement en sous-traitance ou co-traitance pour des architectes, maîtres d'œuvre et promoteurs, sur l'isolation, la peinture, la plâtrerie et la maçonnerie. Nous nous adaptons à votre planning de chantier et à votre cahier des charges.</p></div>
+        </div>
+        <div class="accordion-item audience-pro-block">
+          <button class="accordion-trigger" aria-expanded="false">Pouvez-vous fournir un dossier d'entreprise pour un appel d'offres (assurances, références) ?</button>
+          <div class="accordion-panel"><p>Oui, nous transmettons sur demande notre attestation d'assurance responsabilité civile décennale, notre Kbis et nos références chantiers pour constituer votre dossier de consultation des entreprises.</p></div>
+        </div>
+        <div class="accordion-item audience-pro-block">
+          <button class="accordion-trigger" aria-expanded="false">Comment se passe la coordination sur un chantier avec plusieurs corps de métier ?</button>
+          <div class="accordion-panel"><p>Un interlocuteur chantier unique assure la coordination de nos équipes avec les autres corps de métier, le respect du planning et un reporting régulier à la maîtrise d'œuvre.</p></div>
         </div>
       </div>
     </div>
@@ -1655,9 +1724,12 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 
         <div class="contact-form-wrap" id="devis">
           <form class="hero-form contact-quote-form" id="hero-form" novalidate>
-            <p class="hero-form-title">Combien coûte votre projet ?</p>
-            <p class="hero-form-subtitle">On vous répond, on chiffre tous vos travaux en 48h</p>
-            <p class="hero-form-desc">Isolation, peinture, plâtrerie, maçonnerie... laissez-nous vos coordonnées, on s'occupe du reste.</p>
+            <p class="hero-form-title audience-particulier-block">Combien coûte votre projet ?</p>
+            <p class="hero-form-title audience-pro-block">Parlons de votre prochain chantier</p>
+            <p class="hero-form-subtitle audience-particulier-block">On vous répond, on chiffre tous vos travaux en 48h</p>
+            <p class="hero-form-subtitle audience-pro-block">Architectes, maîtres d'œuvre, promoteurs : nous étudions votre cahier des charges sous 48h</p>
+            <p class="hero-form-desc audience-particulier-block">Isolation, peinture, plâtrerie, maçonnerie... laissez-nous vos coordonnées, on s'occupe du reste.</p>
+            <p class="hero-form-desc audience-pro-block">Isolation, peinture, plâtrerie, maçonnerie... en sous-traitance ou co-traitance, nous nous adaptons à votre planning de chantier.</p>
 
             <div class="form-row">
               <label for="hf-name">Nom complet *</label>
@@ -1673,7 +1745,10 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
                 <input type="email" id="hf-email" name="email" required autocomplete="email">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Obtenir mon devis gratuit →</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+              <span class="audience-particulier">Obtenir mon devis gratuit →</span>
+              <span class="audience-pro">Transmettre mon projet →</span>
+            </button>
             <p class="form-privacy-note">🔒 En envoyant, vous acceptez d'être recontacté(e) à ce sujet. Vos coordonnées ne sont jamais partagées.</p>
             <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
           </form>
@@ -1945,8 +2020,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* Visitor gate (particulier / professionnel) — shown once per browser session on
-     load; both choices lead to the same site for now, this just remembers the pick
-     (for a future dedicated B2B experience) and unlocks the page. */
+     load. The choice now actually changes the site's wording (hero, "pourquoi nous
+     choisir", FAQ, formulaires de devis) toward a B2B register for "professionnel"
+     — see applyVisitorType() below. */
   var visitorGate = document.getElementById('visitor-gate');
   var gateWasOpen = !!(visitorGate && !visitorGate.hidden);
   if (visitorGate) {
@@ -1964,6 +2040,26 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gateParticulier) gateParticulier.addEventListener('click', function () { chooseVisitor('particulier'); });
     if (gatePro) gatePro.addEventListener('click', function () { chooseVisitor('professionnel'); });
   }
+
+  /* Applies the chosen audience everywhere: toggles the "is-pro" class on <html>
+     (the static HTML already carries both wordings side by side for the hero,
+     reasons, FAQ and bottom contact form — see css/style.css's
+     .audience-particulier/.audience-pro rules) and updates the JS-built devis
+     pop-up's copy directly, since that one doesn't exist in the static HTML.
+     Re-applied on the gate's "mi:visitor-chosen" event, and once eagerly below so
+     a visitor who already chose earlier this session (gate won't show again) gets
+     the right pop-up copy too — the <html class="is-pro"> part for the static
+     content is already set, flash-free, by the blocking script at the top of
+     index.html's <body>. */
+  function isProVisitor() {
+    try { return sessionStorage.getItem('mi-visitor-type') === 'professionnel'; } catch (err) { return false; }
+  }
+  function applyVisitorType() {
+    var isPro = isProVisitor();
+    document.documentElement.classList.toggle('is-pro', isPro);
+    updatePopupCopyForAudience(isPro);
+  }
+  document.addEventListener('mi:visitor-chosen', applyVisitorType);
 
   /* Background videos (gate + hero) — deferred a beat past the very first paint on
      slow connections, so they don't compete for bandwidth with the critical
@@ -2052,11 +2148,13 @@ document.addEventListener('DOMContentLoaded', function () {
     updateGalleryArrows();
   }
 
-  /* Hero stat rotator */
-  var rotator = document.getElementById('hero-stat-rotator');
-  if (rotator) {
+  /* Hero stat rotator — there are now two (particulier / professionnel), only one
+     of which is ever visible at a time (see .audience-particulier-block /
+     .audience-pro-block in css/style.css), so each is animated independently. */
+  var rotators = document.querySelectorAll('.hero-stat-rotator');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  rotators.forEach(function (rotator) {
     var rotatorItems = rotator.querySelectorAll('.hero-stat-item');
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (rotatorItems.length > 1 && !reduceMotion) {
       var rotatorIndex = 0;
       setInterval(function () {
@@ -2065,7 +2163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rotatorItems[rotatorIndex].classList.add('is-active');
       }, 2800);
     }
-  }
+  });
 
   /* Mobile nav toggle */
   var navToggle = document.getElementById('nav-toggle');
@@ -2212,6 +2310,24 @@ document.addEventListener('DOMContentLoaded', function () {
   var popupOverlay = ensurePopup();
   var popupClose = document.getElementById('popup-close');
   var POPUP_SEEN_KEY = 'mi-popup-seen';
+
+  /* Swaps the pop-up's wording for the "professionnel" audience (see
+     applyVisitorType() above) — the pop-up is built in JS, so unlike the static
+     hero/reasons/FAQ/bottom-form it can't carry both versions in the markup for
+     CSS to toggle; its text is set directly here instead. */
+  function updatePopupCopyForAudience(isPro) {
+    var eyebrow = popupOverlay.querySelector('.popup-card > .eyebrow');
+    var title = document.getElementById('popup-title');
+    var lead = popupOverlay.querySelector('.popup-lead');
+    var submitLabel = popupOverlay.querySelector('#popup-form button[type="submit"]');
+    if (eyebrow) eyebrow.textContent = isPro ? 'Espace professionnels' : 'Devis gratuit';
+    if (title) title.textContent = isPro ? 'Parlons de votre prochain chantier' : 'Combien coûte votre projet ?';
+    if (lead) lead.textContent = isPro
+      ? 'Architectes, maîtres d\'œuvre, promoteurs : laissez-nous vos coordonnées, nous étudions votre cahier des charges sous 48h.'
+      : 'Laissez-nous vos coordonnées, on vous répond sous 48h.';
+    if (submitLabel) submitLabel.textContent = isPro ? 'Transmettre mon projet →' : 'Obtenir mon devis gratuit →';
+  }
+  applyVisitorType();
 
   function openPopup() {
     popupOverlay.hidden = false;
