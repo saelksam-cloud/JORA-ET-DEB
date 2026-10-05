@@ -283,26 +283,38 @@ document.addEventListener('DOMContentLoaded', function () {
     heroObserver.observe(heroSection);
   }
 
-  /* Réalisations gallery arrows */
-  var galleryScroll = document.getElementById('gallery-grid');
-  var galleryPrev = document.getElementById('gallery-prev');
-  var galleryNext = document.getElementById('gallery-next');
-  if (galleryScroll && galleryPrev && galleryNext) {
-    var scrollByCard = function (direction) {
-      var card = galleryScroll.querySelector('.gallery-card');
-      var step = card ? card.getBoundingClientRect().width + 22 : galleryScroll.clientWidth * 0.8;
-      galleryScroll.scrollBy({ left: direction * step, behavior: 'smooth' });
-    };
-    galleryPrev.addEventListener('click', function () { scrollByCard(-1); });
-    galleryNext.addEventListener('click', function () { scrollByCard(1); });
+  /* Réalisations teaser — on mobile it's a horizontally scrolling row (see
+     css/style.css), but a lone photo with no visual cue reads as a dead end
+     rather than something to swipe through. The CSS already bleeds it to the
+     viewport edge with a fade on the right so the next photo peeks in; this
+     adds a one-time small "nudge" — scroll a little right then back — the
+     first time the row comes into view, to make the swipe gesture obvious
+     without requiring the visitor to discover it by accident. Only runs where
+     the row is actually scrollable (the mobile layout) and only once. */
+  var realisationsTeaser = document.querySelector('.realisations-teaser');
+  if (realisationsTeaser && 'IntersectionObserver' in window) {
+    var reduceMotionNudge = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var nudged = false;
+    var userTouchedTeaser = false;
+    realisationsTeaser.addEventListener('pointerdown', function () { userTouchedTeaser = true; }, { passive: true, once: true });
 
-    var updateGalleryArrows = function () {
-      var maxScroll = galleryScroll.scrollWidth - galleryScroll.clientWidth - 2;
-      galleryPrev.classList.toggle('is-disabled', galleryScroll.scrollLeft <= 0);
-      galleryNext.classList.toggle('is-disabled', galleryScroll.scrollLeft >= maxScroll);
-    };
-    galleryScroll.addEventListener('scroll', updateGalleryArrows, { passive: true });
-    updateGalleryArrows();
+    var teaserObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting || nudged || reduceMotionNudge) return;
+        if (realisationsTeaser.scrollWidth <= realisationsTeaser.clientWidth + 4) return; // not scrollable (desktop grid)
+        nudged = true;
+        teaserObserver.disconnect();
+        setTimeout(function () {
+          if (userTouchedTeaser) return; // visitor already found it themselves
+          var nudgeDistance = Math.min(60, realisationsTeaser.scrollWidth - realisationsTeaser.clientWidth);
+          realisationsTeaser.scrollTo({ left: nudgeDistance, behavior: 'smooth' });
+          setTimeout(function () {
+            if (!userTouchedTeaser) realisationsTeaser.scrollTo({ left: 0, behavior: 'smooth' });
+          }, 550);
+        }, 500);
+      });
+    }, { threshold: 0.5 });
+    teaserObserver.observe(realisationsTeaser);
   }
 
   /* Hero stat rotator — there are now two (particulier / professionnel), only one
