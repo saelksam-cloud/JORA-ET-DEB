@@ -345,11 +345,16 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Contact form handling — sends the lead via Web3Forms to Gmail + the Odoo CRM alias.
      Get your two free access keys at https://web3forms.com (one per destination email)
      and paste them below. Until both are filled in, the form falls back to a local-only
-     success message so nothing breaks. */
+     success message so nothing breaks.
+     On success, the visitor is redirected to a dedicated "merci" page instead of just
+     swapping in an inline message — that gives Google Ads a real URL to watch for
+     ("quelqu'un visite cette page" conversion action), which is far more reliable than
+     relying on a JS event firing before the tab closes or the visitor navigates away. */
   var WEB3FORMS_KEY_GMAIL = '5ee65a03-76fe-4a42-8b39-2bf36a4d5cb6';
   var WEB3FORMS_KEY_ODOO = 'c3b2d6a0-ad34-460c-9fff-909fa056c85d';
+  var THANK_YOU_URL = '/formulaire/merci.html';
 
-  function wireQuoteForm(form, status, onSuccess) {
+  function wireQuoteForm(form, status) {
     if (!form || !status) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -361,17 +366,13 @@ document.addEventListener('DOMContentLoaded', function () {
       var keysConfigured = WEB3FORMS_KEY_GMAIL.indexOf('YOUR_') !== 0 && WEB3FORMS_KEY_ODOO.indexOf('YOUR_') !== 0;
 
       function finish(success) {
-        status.textContent = success
-          ? 'Merci ! Votre demande a bien été envoyée, nous revenons vers vous sous 48h.'
-          : 'Un souci est survenu, merci de réessayer ou de nous appeler directement.';
-        status.className = 'form-status ' + (success ? 'success' : 'error');
         if (success) {
-          if (typeof window.trackLeadSubmitted === 'function') {
-            window.trackLeadSubmitted();
-          }
           form.reset();
-          if (typeof onSuccess === 'function') onSuccess();
+          window.location.href = THANK_YOU_URL;
+          return;
         }
+        status.textContent = 'Un souci est survenu, merci de réessayer ou de nous appeler directement.';
+        status.className = 'form-status error';
       }
 
       if (!keysConfigured) {
@@ -398,56 +399,117 @@ document.addEventListener('DOMContentLoaded', function () {
 
   wireQuoteForm(document.getElementById('hero-form'), document.getElementById('hero-form-status'));
 
-  /* Capture pop-up — a short duplicate form shown once per visit, after a delay or scroll depth */
-  var popupOverlay = document.getElementById('popup-overlay');
+  /* Devis popup — built in JS and appended on every page (rather than duplicated in
+     every .html file) so it's available site-wide: clicking any "Devis gratuit" link
+     (header, hero, floating button, footer CTA...) opens it in place instead of
+     navigating/scrolling to the bottom-of-page form, on every page of the site. Also
+     still shows itself once per visit after a delay or scroll depth, like before. */
+  function ensurePopup() {
+    var existing = document.getElementById('popup-overlay');
+    if (existing) return existing;
+    var wrap = document.createElement('div');
+    wrap.innerHTML =
+      '<div class="popup-overlay" id="popup-overlay" hidden>' +
+        '<div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popup-title">' +
+          '<button type="button" class="popup-close" id="popup-close" aria-label="Fermer">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
+          '</button>' +
+          '<p class="eyebrow center">Devis gratuit</p>' +
+          '<h3 id="popup-title">Combien coûte votre projet ?</h3>' +
+          '<p class="popup-lead">Laissez-nous vos coordonnées, on vous répond sous 48h.</p>' +
+          '<form class="hero-form popup-form" id="popup-form" novalidate>' +
+            '<div class="form-row">' +
+              '<label for="pf-name">Nom complet *</label>' +
+              '<input type="text" id="pf-name" name="name" required autocomplete="name">' +
+            '</div>' +
+            '<div class="form-row">' +
+              '<label for="pf-phone">Téléphone *</label>' +
+              '<input type="tel" id="pf-phone" name="phone" required autocomplete="tel">' +
+            '</div>' +
+            '<div class="form-row">' +
+              '<label for="pf-email">E-mail *</label>' +
+              '<input type="email" id="pf-email" name="email" required autocomplete="email">' +
+            '</div>' +
+            '<button type="submit" class="btn btn-primary btn-lg btn-block">Obtenir mon devis gratuit →</button>' +
+            '<p class="form-privacy-note">🔒 En envoyant, vous acceptez d\'être recontacté(e) à ce sujet.</p>' +
+            '<p class="form-status" id="popup-form-status" role="status" aria-live="polite"></p>' +
+          '</form>' +
+        '</div>' +
+      '</div>';
+    var el = wrap.firstElementChild;
+    document.body.appendChild(el);
+    return el;
+  }
+
+  var popupOverlay = ensurePopup();
   var popupClose = document.getElementById('popup-close');
   var POPUP_SEEN_KEY = 'mi-popup-seen';
 
-  if (popupOverlay) {
-    var popupShown = false;
-
-    function showPopup() {
-      if (popupShown) return;
-      var alreadySeen = false;
-      try { alreadySeen = sessionStorage.getItem(POPUP_SEEN_KEY) === '1'; } catch (err) {}
-      if (alreadySeen) return;
-      popupShown = true;
-      popupOverlay.hidden = false;
-      document.body.style.overflow = 'hidden';
-      try { sessionStorage.setItem(POPUP_SEEN_KEY, '1'); } catch (err) {}
-    }
-
-    function hidePopup() {
-      popupOverlay.hidden = true;
-      document.body.style.overflow = '';
-    }
-
-    function startPopupTriggers() {
-      var popupTimer = setTimeout(showPopup, 22000);
-      window.addEventListener('scroll', function () {
-        var scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        if (scrolled > 0.55) {
-          clearTimeout(popupTimer);
-          showPopup();
-        }
-      }, { passive: true });
-    }
-
-    if (gateWasOpen) {
-      document.addEventListener('mi:visitor-chosen', startPopupTriggers, { once: true });
-    } else {
-      startPopupTriggers();
-    }
-
-    if (popupClose) popupClose.addEventListener('click', hidePopup);
-    popupOverlay.addEventListener('click', function (e) {
-      if (e.target === popupOverlay) hidePopup();
-    });
-
-    wireQuoteForm(document.getElementById('popup-form'), document.getElementById('popup-form-status'), function () {
-      setTimeout(hidePopup, 1800);
-    });
+  function openPopup() {
+    popupOverlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    try { sessionStorage.setItem(POPUP_SEEN_KEY, '1'); } catch (err) {}
+    var firstField = document.getElementById('pf-name');
+    if (firstField) firstField.focus();
   }
+
+  function closePopup() {
+    popupOverlay.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  /* Automatic trigger (delay / scroll depth) — only once per visit, and skipped
+     entirely if the visitor already opened the popup themselves via a CTA click. */
+  var popupAutoTriggered = false;
+  function autoOpenPopup() {
+    if (popupAutoTriggered) return;
+    var alreadySeen = false;
+    try { alreadySeen = sessionStorage.getItem(POPUP_SEEN_KEY) === '1'; } catch (err) {}
+    if (alreadySeen) return;
+    popupAutoTriggered = true;
+    openPopup();
+  }
+
+  function startPopupTriggers() {
+    var popupTimer = setTimeout(autoOpenPopup, 22000);
+    window.addEventListener('scroll', function () {
+      var scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrolled > 0.55) {
+        clearTimeout(popupTimer);
+        autoOpenPopup();
+      }
+    }, { passive: true });
+  }
+
+  if (gateWasOpen) {
+    document.addEventListener('mi:visitor-chosen', startPopupTriggers, { once: true });
+  } else {
+    startPopupTriggers();
+  }
+
+  if (popupClose) popupClose.addEventListener('click', closePopup);
+  popupOverlay.addEventListener('click', function (e) {
+    if (e.target === popupOverlay) closePopup();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !popupOverlay.hidden) closePopup();
+  });
+
+  wireQuoteForm(document.getElementById('popup-form'), document.getElementById('popup-form-status'));
+
+  /* Every "Devis gratuit" CTA on the site (header, hero, floating button, footer,
+     service/blog pages...) points at "#devis" — intercept those clicks everywhere
+     and open the popup in place instead of letting the browser jump/navigate to the
+     bottom-of-page form (on another page, that previously meant a full navigation
+     away before landing on the anchor). Matches regardless of path prefix
+     ("#devis", "index.html#devis", "../index.html#devis"...). */
+  document.addEventListener('click', function (e) {
+    var devisLink = e.target.closest('a[href$="#devis"]');
+    if (devisLink) {
+      e.preventDefault();
+      openPopup();
+    }
+  });
 
   /* Scroll reveal for cards/sections */
   var revealTargets = document.querySelectorAll('.testimonial-card, .gallery-card, .stat, .service-tile, .reason-card');

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merci pour votre demande | Moderne Isolation</title>
+<meta name="description" content="Votre demande de devis a bien été envoyée à Moderne Isolation. Notre équipe vous recontacte sous 48h.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.moderneisolation.fr/formulaire/merci.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/style.css?v=20260909a">
+<style>
+  .thankyou-wrap { min-height: calc(100vh - 220px); display: flex; align-items: center; justify-content: center; padding: 64px 24px; }
+  .thankyou-card { max-width: 560px; text-align: center; }
+  .thankyou-icon { width: 72px; height: 72px; border-radius: 50%; background: #E9F7EF; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .thankyou-card h1 { font-size: 2rem; margin: 6px 0 20px; }
+  .thankyou-card p { color: var(--color-text-light); font-size: 1.05rem; margin-bottom: 12px; }
+  .thankyou-actions { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .thankyou-back { display: inline-block; margin-top: 28px; color: var(--color-text-light); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo" aria-label="Moderne Isolation - Accueil">
+      <img src="../images/logo-m.png" alt="" width="26" height="30" class="logo-mark">
+      <span>Moderne <strong>isolation</strong></span>
+    </a>
+    <div class="header-actions">
+      <a href="tel:+33635356345" class="btn btn-outline">06 35 35 63 45</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="thankyou-wrap">
+    <div class="thankyou-card">
+      <div class="thankyou-icon">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1E8E3E" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <p class="eyebrow center">Demande envoyée</p>
+      <h1>Merci, votre demande a bien été prise en compte !</h1>
+      <p>Notre équipe revient vers vous sous 48h pour discuter de votre projet et vous proposer un devis gratuit et sans engagement.</p>
+      <p>Une urgence ou une question avant ? Appelez-nous directement ou écrivez-nous sur WhatsApp.</p>
+      <div class="thankyou-actions">
+        <a href="tel:+33635356345" class="btn btn-primary">📞 06 35 35 63 45</a>
+        <a href="https://wa.me/33635356345?text=Bonjour%2C%20je%20viens%20de%20faire%20une%20demande%20de%20devis%20sur%20votre%20site." target="_blank" rel="noopener" class="btn btn-outline">WhatsApp</a>
+      </div>
+      <a href="../index.html" class="thankyou-back">← Retour à l'accueil</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>© <span id="year"></span> Moderne Isolation SARL — SIRET 824 674 154 00045</p>
+      <ul>
+        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+        <li><a href="../politique-confidentialite.html">Politique de confidentialité</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Consentement cookies" hidden>
+  <p>Nous utilisons Google Analytics pour mesurer l'audience du site et améliorer votre expérience. Vous pouvez accepter ou refuser ces cookies de mesure d'audience. <a href="../politique-confidentialite.html">En savoir plus</a>.</p>
+  <div class="cookie-banner-actions">
+    <button type="button" class="btn btn-outline" id="cookie-decline">Refuser</button>
+    <button type="button" class="btn btn-primary" id="cookie-accept">Accepter</button>
+  </div>
+</div>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="../js/analytics.js?v=20260909a"></script>
+<script>
+  /* Cette page n'est atteinte qu'après l'envoi réussi d'un formulaire de devis (voir
+     js/main.js) : son URL sert justement de signal de conversion fiable pour Google
+     Ads ("Visites de page" pointant vers /formulaire/merci.html), indépendant du
+     chargement de gtag. On en profite aussi pour confirmer l'événement GA4
+     "generate_lead" ici, une fois la page bien arrivée — plus fiable qu'un appel
+     juste avant une redirection. Attend DOMContentLoaded pour laisser à analytics.js
+     (chargé juste avant) le temps d'initialiser gtag si le consentement a déjà été
+     donné lors d'une visite précédente. */
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof window.trackLeadSubmitted === 'function') {
+      window.trackLeadSubmitted('form');
+    }
+  });
+</script>
+</body>
+</html>
